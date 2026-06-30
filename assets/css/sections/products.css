@@ -68,3 +68,20 @@
   .modal-grid { grid-template-columns: 1fr; }
   .modal-gallery { min-height: 220px; aspect-ratio: 16/10; }
 }
+
+/* ---- Mobile: always two product cards per row ----------------------- */
+/* Override the auto-fit min (248px) so phones show a tidy 2-up grid
+   instead of a single tall column. Cards + actions compact to fit. */
+@media (max-width: 640px) {
+  .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+  .product-card .body { padding: .8rem .75rem; gap: .4rem; }
+  .product-card .name { font-size: 1.02rem; }
+  .product-card .desc {
+    font-size: .78rem;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .product-card .meta { gap: .25rem; }
+  .product-card .meta .chip { font-size: .62rem; padding: .18rem .45rem; }
+  .product-card .card-actions { flex-direction: column; gap: .4rem; }
+  .product-card .cat-eyebrow { font-size: .56rem; padding: .2rem .45rem; }
+}

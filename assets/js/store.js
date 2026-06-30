@@ -61,6 +61,13 @@
   };
   const uid = (prefix) => `${prefix}_${Date.now().toString(36)}_${Math.floor(Math.random() * 1e4)}`;
 
+  // Mirror a mutation to the cloud (Firestore) if firebase.js is configured.
+  // Fire-and-forget + guarded, so the site works identically with no backend.
+  const mirror = (kind, action, payload) => {
+    try { if (window.SASCloud && window.SASCloud.enabled) window.SASCloud.mirror(kind, action, payload); }
+    catch (_) { /* never let cloud sync break a local save */ }
+  };
+
   /* ---- seeding -------------------------------------------------------- */
   function ready() {
     if (localStorage.getItem(KEYS.seeded)) return;
@@ -123,11 +130,13 @@
       list.push(p);
     }
     write(KEYS.products, list);
+    mirror("products", "set", p);
     return p;
   }
 
   function deleteProduct(id) {
     write(KEYS.products, getProducts().filter((p) => p.id !== id));
+    mirror("products", "del", { id });
   }
 
   /* ---- Ads ------------------------------------------------------------ */
@@ -144,10 +153,14 @@
       list.push(a);
     }
     write(KEYS.ads, list);
+    mirror("ads", "set", a);
     return a;
   }
 
-  function deleteAd(id) { write(KEYS.ads, getAds().filter((a) => a.id !== id)); }
+  function deleteAd(id) {
+    write(KEYS.ads, getAds().filter((a) => a.id !== id));
+    mirror("ads", "del", { id });
+  }
 
   /* ---- Inquiries ------------------------------------------------------ */
   function getInquiries() { ready(); return read(KEYS.inquiries, []); }
@@ -157,17 +170,19 @@
     const rec = { id: uid("q"), status: "new", createdAt: Date.now(), ...q };
     list.unshift(rec);
     write(KEYS.inquiries, list);
+    mirror("inquiries", "set", rec);
     return rec;
   }
 
   function updateInquiry(id, patch) {
     const list = getInquiries();
     const i = list.findIndex((q) => q.id === id);
-    if (i >= 0) { list[i] = { ...list[i], ...patch }; write(KEYS.inquiries, list); }
+    if (i >= 0) { list[i] = { ...list[i], ...patch }; write(KEYS.inquiries, list); mirror("inquiries", "set", list[i]); }
   }
 
   function deleteInquiry(id) {
     write(KEYS.inquiries, getInquiries().filter((q) => q.id !== id));
+    mirror("inquiries", "del", { id });
   }
 
   /* ---- Settings ------------------------------------------------------- */
@@ -177,6 +192,7 @@
     const cur = getSettings();
     const next = { ...cur, ...patch, socials: { ...(cur.socials || {}), ...(patch.socials || {}) } };
     write(KEYS.settings, next);
+    mirror("settings", "set", next);
     return next;
   }
 
@@ -194,11 +210,13 @@
       list.push(cat);
     }
     write(KEYS.categories, list);
+    mirror("categories", "set", cat);
     return cat;
   }
 
   function deleteCategory(id) {
     write(KEYS.categories, getCategories().filter((c) => c.id !== id));
+    mirror("categories", "del", { id });
   }
 
   // Convenience: plain ["Rice","Oil",…] in display order (used by renderers).
@@ -220,11 +238,13 @@
       list.push(co);
     }
     write(KEYS.countries, list);
+    mirror("countries", "set", co);
     return co;
   }
 
   function deleteCountry(id) {
     write(KEYS.countries, getCountries().filter((c) => c.id !== id));
+    mirror("countries", "del", { id });
   }
 
   /* ---- Export (commit these files to GitHub to publish for everyone) -- */

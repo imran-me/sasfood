@@ -160,6 +160,39 @@ sas/
 
 ## 9. Session Log (append newest at top — update at end of each day)
 
+### 2026-06-30 — Session 7 (mobile overflow fix, products 2-col, FIREBASE wired)
+Client report: on mobile the page rendered **wider than the screen** (right-edge
+icons clipped; zooming out "fixed" it). Plus: keep section order identical on
+desktop/phone, keep the 3-col animated Featured row, make Products **2 per row**
+on mobile, and **connect Firebase Firestore** so admin edits are instantly public.
+
+- **Overflow root cause + fix:** the per-section golden `.side-accent` monuments
+  were `opacity:0` on mobile but **still in layout**, anchored to the section edge
+  and pushed ~42% outward (`museum.webp` at 34vmin) → horizontal overflow. And
+  `overflow-x:hidden` was only on `<body>`, not the real scroll container `<html>`.
+  Fixed: `.side-accent { display:none }` ≤760px (`background.css`) + `overflow-x:
+  hidden` on `<html>` and `max-width:100%` on `<body>` (`base.css`).
+- **Section order:** already identical desktop/mobile (one shared HTML, no CSS
+  reordering). Kept Featured **below** the numbers/trust strip (client's choice).
+- **Products 2-up on mobile:** `products.css` — `@media (max-width:640px)` forces
+  `grid-template-columns: repeat(2, minmax(0,1fr))`, compacts padding/fonts,
+  3-line clamped desc, stacks the Inquire/Email buttons. (Featured row untouched.)
+- **Firebase Firestore backend (Phase 8) — WIRED, optional/graceful:**
+  - New `assets/js/firebase-config.js` (paste keys here) + `assets/js/firebase.js`
+    (`window.SASCloud`: `pull/mirror/publishAll/hasData/signIn/onAuth`).
+  - Kept the synchronous `Store` API. `store.js` now `mirror()`s every save/delete
+    to Firestore (products/ads/categories/countries/inquiries/settings; settings =
+    single doc id `site`). Public pages `await SASCloud.pull()` in `main.js` boot
+    (after includes, before render) so visitors see latest admin edits.
+  - Admin login uses **Firebase Auth** when configured (else the old demo gate).
+    First admin login `publishAll()`s the local catalogue to seed an empty cloud.
+  - Firebase compat SDK (10.12.2) script tags + the two new files added to all 5
+    pages after `store.js`. If `apiKey` is blank → fully disabled, site = as before.
+  - Setup steps + Firestore security rules in **`FIREBASE_SETUP.md`**.
+  - ⚠️ Client still needs to: create the Firebase project, paste keys into
+    `firebase-config.js`, publish the security rules, add an admin auth user.
+  - All JS passes `node --check`.
+
 ### 2026-06-30 — DAY RECAP (client task list, all done + pushed to GitHub)
 All work pushed to `https://github.com/imran-me/sasfood.git` (branch `main`,
 HEAD `68704a8`). Tasks the client asked for today, in order, and their status:

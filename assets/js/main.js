@@ -15,6 +15,14 @@
   if (window.__includesReady) { try { await window.__includesReady; } catch (_) {} }
   else { await new Promise((r) => document.addEventListener("DOMContentLoaded", r)); }
 
+  // Make sure the local cache is seeded, then (if Firebase is configured) pull
+  // the latest published catalogue/settings from Firestore into that cache so
+  // the renderers below show every visitor the newest admin edits.
+  if (window.Store) window.Store.ready();
+  if (window.SASCloud && window.SASCloud.enabled) {
+    try { await window.SASCloud.pull(); } catch (e) { console.error("[cloud] pull failed", e); }
+  }
+
   // Apply any admin Settings overrides onto SITE_CONFIG (mutate in place so the
   // reference cached by cta-helper.js stays valid). Only non-empty values win.
   if (window.Store && window.SITE_CONFIG) {

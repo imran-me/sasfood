@@ -25,10 +25,11 @@
 <body class="admin">
 
   <!-- =========================================================================
-       ADMIN PANEL (separate page) — FULLY FUNCTIONAL via localStorage (Store).
-       Products / Ads / Inquiries / Settings all persist and reflect on the
-       public site. Demo auth only (sessionStorage) — swap for Firebase in Phase 8.
-       Demo login: admin@saraalsalam.com / demo1234
+       ADMIN PANEL (separate page) — FULLY FUNCTIONAL.
+       Products / Ads / Inquiries / Settings persist to Firebase Firestore and
+       reflect on the public site for every visitor. Login is Firebase Auth —
+       the credentials live in the Firebase console, never in this code.
+       (If Firebase isn't configured, it falls back to a local demo gate.)
        ====================================================================== -->
 
   <!-- ===== Login screen ===== -->
@@ -40,7 +41,7 @@
       <div class="inquiry-form">
         <div class="field">
           <label for="a-email">Email</label>
-          <input id="a-email" name="email" type="email" autocomplete="username" placeholder="admin@saraalsalam.com">
+          <input id="a-email" name="email" type="email" autocomplete="username" placeholder="you@example.com">
         </div>
         <div class="field">
           <label for="a-pass">Password</label>
@@ -48,7 +49,6 @@
         </div>
         <span class="err" style="display:none;color:#ff9b9b;font-size:.78rem"></span>
         <button class="btn btn--gold" type="submit" style="width:100%">Sign In</button>
-        <p class="form-note" style="text-align:center">Demo: admin@saraalsalam.com / demo1234</p>
       </div>
     </form>
   </div>
@@ -276,6 +276,12 @@
   <script src="assets/js/config.js"></script>
   <script src="assets/data/products.js"></script>
   <script src="assets/js/store.js"></script>
+  <!-- Firebase cloud backend (optional — credentials in firebase-config.js) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="assets/js/firebase-config.js"></script>
+  <script src="assets/js/firebase.js"></script>
   <script src="assets/js/img-fallback.js"></script>
   <script src="assets/js/media.js"></script>
   <script src="assets/js/admin.js"></script>

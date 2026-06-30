@@ -90,9 +90,11 @@
   .side-accent.is-in.right { transform: translate(30%, -50%); }
 }
 
-/* On smaller screens the side art crowds the text — keep it subtle / hide. */
+/* On smaller screens the side art crowds the text AND, since it's anchored to the
+   section edge and pushed outward, it would widen the page (horizontal scroll).
+   Remove it from layout entirely on mobile — not just opacity:0. */
 @media (max-width: 760px) {
-  .side-accent { opacity: 0 !important; }
+  .side-accent { display: none !important; }
 }
 
 /* Each parallax layer; JS sets data-depth (0.15 / 0.4 / 0.7). */
