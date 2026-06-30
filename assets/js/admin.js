@@ -229,11 +229,40 @@
     URL.revokeObjectURL(a.href);
   }
 
+  // Resize a picked image file on a canvas and return a compressed JPEG data URL.
+  // Keeps the result well under Firestore's ~1 MB document limit so the photo can
+  // be stored inline (no paid Storage bucket needed) and shows for every visitor.
+  function compressImage(file, maxW, quality) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error("read failed"));
+      reader.onload = () => {
+        const image = new Image();
+        image.onerror = () => reject(new Error("decode failed"));
+        image.onload = () => {
+          const scale = Math.min(1, maxW / image.width);
+          const w = Math.max(1, Math.round(image.width * scale));
+          const h = Math.max(1, Math.round(image.height * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          canvas.getContext("2d").drawImage(image, 0, 0, w, h);
+          let q = quality;
+          let out = canvas.toDataURL("image/jpeg", q);
+          while (out.length > 800000 && q > 0.4) { q -= 0.12; out = canvas.toDataURL("image/jpeg", q); }
+          resolve(out);
+        };
+        image.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   function openProductEditor(id) {
     const editor = $("#product-editor");
     const view = $("#products-view");
     const p = id ? Store.getProducts().find((x) => x.id === id) : null;
     const img = (p && p.images && p.images[0]) || { url: "", alt: "" };
+    const imgIsData = String(img.url || "").startsWith("data:");  // an uploaded (embedded) photo
 
     editor.innerHTML = `
       <div class="admin-topbar">
@@ -265,14 +294,17 @@
             <div class="field"><label>Packaging (comma)</label><input name="packaging" value="${esc(joinList(p?.packaging))}"></div>
             <div class="field"><label>MOQ</label><input name="moq" value="${esc(p?.moq || "")}"></div>
           </div>
-          <div class="field--row">
-            <div class="field"><label>Main image — URL or Google&nbsp;Drive link</label><input name="imgUrl" value="${esc(img.url)}" placeholder="Paste a Drive share link or assets/img/products/your.jpg"></div>
-            <div class="field"><label>Image alt text</label><input name="imgAlt" value="${esc(img.alt)}"></div>
+          <div class="field">
+            <label>Product image — upload from your computer</label>
+            <input name="imgFile" type="file" accept="image/*">
+            <input name="imgData" type="hidden" value="${esc(imgIsData ? img.url : "")}">
+            <div id="pe-thumb" style="margin:.55rem 0">${(imgIsData || img.url) ? `<img src="${esc(resolveImg(img.url))}" alt="" style="max-width:150px;border-radius:8px;border:1px solid var(--line)">` : ""}</div>
+            <span class="form-note">Pick a photo and it's resized &amp; saved automatically — appears on the live site instantly. (Or paste a link below instead.)</span>
           </div>
-          <p class="form-note" style="margin-top:-.4rem">
-            Google&nbsp;Drive: share the photo as <b>“Anyone with the link – Viewer”</b>, then paste the link here —
-            it shows on the live site without committing the file to GitHub.
-          </p>
+          <div class="field--row">
+            <div class="field"><label>…or image URL / Google&nbsp;Drive link</label><input name="imgUrl" value="${esc(imgIsData ? "" : img.url)}" placeholder="https://…  or a Drive share link"></div>
+            <div class="field"><label>Image alt text</label><input name="imgAlt" value="${esc(img.alt)}" placeholder="e.g. 5kg sack of basmati rice"></div>
+          </div>
           <div class="field"><label>Additional images (one URL / Drive link per line)</label><textarea name="imgExtra" placeholder="Optional — gallery images">${esc(((p?.images || []).slice(1).map((x) => x.url)).join("\n"))}</textarea></div>
           <div class="field"><label>Specs (one per line, "Key: Value")</label><textarea name="specs" placeholder="Moisture: ≤ 12.5%">${esc(specsToText(p?.specs))}</textarea></div>
           <div class="field"><label>Tags (comma)</label><input name="tags" value="${esc(joinList(p?.tags))}"></div>
@@ -296,6 +328,29 @@
     const drawPreview = () => $("#pe-preview").innerHTML = previewCard(readForm(form));
     form.addEventListener("input", drawPreview);
     drawPreview();
+
+    // Upload a photo straight from the computer: resize + embed it as the image.
+    const fileInput = form.elements["imgFile"];
+    fileInput && fileInput.addEventListener("change", async () => {
+      const file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+      if (!/^image\//.test(file.type)) { toast("Please choose an image file.", "err"); return; }
+      toast("Processing image…");
+      try {
+        const dataUrl = await compressImage(file, 1200, 0.72);
+        form.elements["imgData"].value = dataUrl;
+        form.elements["imgUrl"].value = "";          // an uploaded photo wins over a link
+        const thumb = $("#pe-thumb");
+        if (thumb) thumb.innerHTML = `<img src="${dataUrl}" alt="" style="max-width:150px;border-radius:8px;border:1px solid var(--line)">`;
+        drawPreview();
+        toast("Image ready — click Save to publish.");
+      } catch (e) { console.error(e); toast("Could not read that image.", "err"); }
+    });
+    // Typing a URL clears any previously uploaded image so the link is used.
+    const urlInput = form.elements["imgUrl"];
+    urlInput && urlInput.addEventListener("input", () => {
+      if (urlInput.value.trim()) form.elements["imgData"].value = "";
+    });
 
     const back = () => { editor.hidden = true; view.hidden = false; editor.innerHTML = ""; };
     $("#pe-cancel").onclick = back;
@@ -328,7 +383,8 @@
       packaging: parseList(f("packaging").value),
       moq: f("moq").value.trim(),
       images: [
-        { url: f("imgUrl").value.trim(), alt: f("imgAlt").value.trim() },
+        // An uploaded photo (data URL) takes priority over a typed URL/Drive link.
+        { url: (f("imgData") && f("imgData").value) || f("imgUrl").value.trim(), alt: f("imgAlt").value.trim() },
         ...parseLines(f("imgExtra") ? f("imgExtra").value : "").map((u) => ({ url: u, alt: f("imgAlt").value.trim() })),
       ].filter((im) => im.url),
       specs: parseSpecs(f("specs").value),
