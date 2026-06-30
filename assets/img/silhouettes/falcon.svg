@@ -1,0 +1,9 @@
+<!-- Falcon in flight — outstretched wings silhouette (CSS mask). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <path d="M50 40
+    Q30 18 6 26 Q28 34 38 50
+    Q20 46 10 58 Q30 58 44 56
+    L48 70 L52 70 L56 56
+    Q70 58 90 58 Q80 46 62 50
+    Q72 34 94 26 Q70 18 50 40 Z"/>
+</svg>

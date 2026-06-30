@@ -1,0 +1,53 @@
+<!-- Seamless gold arabesque "flower" damask tile (transparent background).
+     Used as a faint watermark on cards. Full flowers sit at the tile centre and
+     the four corners (quarter each) so the pattern tiles seamlessly. Gold strokes
+     at low alpha; overall visibility is tuned with CSS opacity. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <!-- One eight-petal rosette, centred on (0,0). -->
+    <g id="flower" fill="none" stroke="#C9A24B" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+      <g>
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+        <path d="M0 -14 C 3 -24 3 -38 0 -46 C -3 -38 -3 -24 0 -14 Z" opacity=".7"/>
+      </g>
+      <g transform="rotate(45)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+      </g>
+      <g transform="rotate(90)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+        <path d="M0 -14 C 3 -24 3 -38 0 -46 C -3 -38 -3 -24 0 -14 Z" opacity=".7"/>
+      </g>
+      <g transform="rotate(135)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+      </g>
+      <g transform="rotate(180)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+        <path d="M0 -14 C 3 -24 3 -38 0 -46 C -3 -38 -3 -24 0 -14 Z" opacity=".7"/>
+      </g>
+      <g transform="rotate(225)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+      </g>
+      <g transform="rotate(270)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+        <path d="M0 -14 C 3 -24 3 -38 0 -46 C -3 -38 -3 -24 0 -14 Z" opacity=".7"/>
+      </g>
+      <g transform="rotate(315)">
+        <path d="M0 -8 C 7 -20 7 -40 0 -52 C -7 -40 -7 -20 0 -8 Z"/>
+      </g>
+      <circle r="5"/>
+      <circle r="1.6" fill="#C9A24B"/>
+    </g>
+  </defs>
+
+  <!-- Centre flower + four corner quarters (seamless when tiled). -->
+  <use href="#flower" x="100" y="100"/>
+  <use href="#flower" x="0"   y="0"/>
+  <use href="#flower" x="200" y="0"/>
+  <use href="#flower" x="0"   y="200"/>
+  <use href="#flower" x="200" y="200"/>
+
+  <!-- Hairline lattice linking the rosettes. -->
+  <g stroke="#C9A24B" stroke-width="0.8" opacity=".5">
+    <path d="M100 48 L100 0 M100 152 L100 200 M48 100 L0 100 M152 100 L200 100" fill="none"/>
+  </g>
+</svg>

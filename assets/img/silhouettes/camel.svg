@@ -1,0 +1,29 @@
+<!-- Dromedary camel — refined single-hump silhouette (CSS mask, tinted gold).
+     Facing right: long curved neck, raised head, single hump, slender legs, tail.
+     Transparent by construction (it's a shape mask, not a raster). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <!-- Body, hump, neck and head as one continuous outline. -->
+  <path d="M12 51
+           Q9 41 17 38
+           Q20 27 33 29
+           Q39 21 47 30
+           Q53 38 61 40
+           Q62 29 71 23
+           Q78 18 86 21
+           Q91 22 90 28
+           L87 33
+           Q82 35 79 34
+           Q73 38 70 45
+           Q67 51 65 58
+           L62 59
+           Q46 64 34 62
+           Q23 62 17 58
+           Q13 56 12 51 Z"/>
+  <!-- Tail. -->
+  <path d="M14 46 Q9 52 11 62 Q13 64 14 62 Q13 53 17 49 Z"/>
+  <!-- Legs (slightly tapered). -->
+  <path d="M60 57 L57 89 L61 89 L63 57 Z"/>
+  <path d="M67 57 L65 89 L69 89 L70 56 Z"/>
+  <path d="M26 60 L23 89 L27 89 L29 60 Z"/>
+  <path d="M33 61 L31 89 L35 89 L36 60 Z"/>
+</svg>

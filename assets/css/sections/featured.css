@@ -1,0 +1,68 @@
+/* ============================================================================
+   sections/featured.css — Featured products rotating deck
+   ----------------------------------------------------------------------------
+   Compact portrait cards. 5 across on desktop, 3 across on mobile. The deck
+   crossfades to the next set of featured items on a timer (assets/js/featured.js)
+   via the .is-swapping class for a quiet, luxurious transition.
+   ========================================================================== */
+
+.featured-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-4);
+}
+
+/* Compact featured card — portrait media with a gold-veiled name plate. */
+.featured-card {
+  position: relative;
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1.25px solid var(--line);          /* +25% over the 1px base */
+  background: linear-gradient(180deg, rgba(17,76,58,.55), rgba(12,59,46,.65));
+  box-shadow: var(--shadow-card);
+  transition: opacity 520ms var(--ease), transform 520ms var(--ease),
+              border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.featured-card:hover { border-color: rgba(201,162,75,.5); box-shadow: var(--shadow-lift); transform: translateY(-4px); }
+
+.featured-card .ph { position: relative; aspect-ratio: 3 / 4; overflow: hidden; }
+.featured-card .ph img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+.featured-card:hover .ph img { transform: scale(1.06); }
+
+/* Category pill, top-left. */
+.featured-card .cat {
+  position: absolute; top: .5rem; left: .5rem; z-index: 2;
+  font-size: .58rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600;
+  color: var(--green-900); background: var(--gold-metallic);
+  padding: .2rem .5rem; border-radius: var(--radius-sm);
+}
+
+/* Bottom gradient + name plate. */
+.featured-card .plate {
+  position: absolute; inset: auto 0 0 0; z-index: 2;
+  padding: 1.4rem .7rem .6rem;
+  background: linear-gradient(to top, rgba(8,41,30,.92), rgba(8,41,30,.55) 55%, transparent);
+}
+.featured-card .plate .name {
+  font-family: var(--font-serif); font-size: 1rem; line-height: 1.15; color: var(--cream-100);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.featured-card .plate .ori { font-size: .66rem; color: var(--gold-300); letter-spacing: .04em; margin-top: .2rem; }
+
+/* Swap state: deck fades/lifts out, then content changes, then fades back in. */
+.featured-row.is-swapping .featured-card { opacity: 0; transform: translateY(14px) scale(.985); }
+
+/* Mobile: 3 across, tighter. */
+@media (max-width: 768px) {
+  .featured-row { grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+  .featured-card .plate { padding: 1rem .45rem .45rem; }
+  .featured-card .plate .name { font-size: .76rem; }
+  .featured-card .plate .ori { display: none; }
+  .featured-card .cat { font-size: .5rem; letter-spacing: .1em; padding: .15rem .35rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .featured-card, .featured-row.is-swapping .featured-card { transition: none; opacity: 1; transform: none; }
+}

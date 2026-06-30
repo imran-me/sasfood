@@ -1,0 +1,58 @@
+/* ============================================================================
+   sections/markets.css — Real (equirectangular) golden world map
+   ----------------------------------------------------------------------------
+   Map markup is in sections/markets.html (viewBox 0 0 360 180, degree-space).
+   assets/js/markets-map.js injects the routes + pins and toggles .is-drawn on
+   the <svg> to animate the trade-route arcs from the Dubai hub.
+   ========================================================================== */
+
+.markets { position: relative; }
+.markets .map-wrap {
+  position: relative; margin-top: var(--space-5);
+  max-width: 1040px; margin-inline: auto;
+  padding: clamp(.75rem, 2.5vw, 1.75rem);
+  border: 1.25px solid var(--line); border-radius: var(--radius-lg);
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(201,162,75,.06), transparent 60%),
+    linear-gradient(180deg, rgba(8,41,30,.5), rgba(8,41,30,.2));
+  box-shadow: var(--glow-gold);
+}
+.markets svg.world { width: 100%; height: auto; display: block; }
+
+/* Lat/long graticule — barely-there gold grid. */
+.markets .graticule path { fill: none; stroke: var(--gold-500); stroke-width: .25; opacity: .14; }
+
+/* Landmasses — faint gold fill, gold coastline. */
+.markets .land path {
+  fill: rgba(201,162,75,.10);
+  stroke: var(--gold-500); stroke-width: .5; stroke-linejoin: round;
+  opacity: .85;
+}
+
+/* Trade-route arcs draw in via stroke-dashoffset (set inline by JS). */
+.markets .route {
+  fill: none; stroke: var(--gold-300); stroke-width: .7; opacity: .9;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.8s var(--ease);
+}
+.markets svg.is-drawn .route { stroke-dashoffset: 0 !important; }
+
+/* Pins — layered glow / halo / core dot. */
+.markets .pin-glow { fill: var(--gold-500); opacity: .18; animation: pin-pulse 2.6s ease-in-out infinite; }
+.markets .pin-halo { fill: var(--gold-300); opacity: .35; }
+.markets .pin { fill: var(--gold-300); cursor: pointer; transition: fill var(--dur-fast) var(--ease); }
+.markets .pin:hover { fill: var(--saffron); }
+.markets .pin-group.is-hub .pin { fill: #fff; }
+.markets .pin-group.is-hub .pin-glow { fill: var(--gold-300); opacity: .28; }
+
+@keyframes pin-pulse { 0%,100% { opacity: .10; } 50% { opacity: .30; } }
+
+/* Fallback / accessible legend of markets under the map. */
+.market-legend { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: var(--space-5); }
+.market-legend li { display: inline-flex; align-items: center; gap: .4rem; font-size: var(--fs-small); color: var(--text-muted-on-dark); }
+.market-legend .flag { font-size: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .markets .route { stroke-dashoffset: 0; transition: none; }
+  .markets .pin-glow { animation: none; }
+}

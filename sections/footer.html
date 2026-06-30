@@ -1,0 +1,89 @@
+<!-- ===========================================================================
+     sections/footer.html — Deep-green footer with arabesque divider + columns
+     ---------------------------------------------------------------------------
+     Product links deep-link to the filtered showcase (products.html?category=…).
+     Markets list + year are injected; the tiny gold dot routes to /admin.
+     ======================================================================== -->
+<footer class="site-footer" id="footer">
+  <!-- Arabesque 8-point star atop the divider -->
+  <svg class="arabesque" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+    <path d="M12 2l2.5 5.5L20 6l-1.5 6L20 18l-5.5-1.5L12 22l-2.5-5.5L4 18l1.5-6L4 6l5.5 1.5z"/>
+  </svg>
+
+  <div class="container">
+    <div class="foot-grid">
+      <!-- Brand -->
+      <div class="foot-col foot-brand">
+        <a class="brand" href="index.html" aria-label="Sara Alsalam — home">
+          <img class="mark" src="assets/img/brand/logo.png" alt="Sara Alsalam (Sara Gold) logo">
+          <span class="wordmark"><b>Sara Alsalam</b><small>Foodstuff Trading LLC</small></span>
+        </a>
+        <p class="ethos">Trusted Global Food Trading Partner — sourcing the world's finest staples, delivered in bulk, with trust.</p>
+        <div class="socials">
+          <a data-config-href="instagram" aria-label="Instagram">IG</a>
+          <a data-config-href="linkedin" aria-label="LinkedIn">in</a>
+          <a data-config-href="whatsapp" aria-label="WhatsApp">WA</a>
+        </div>
+      </div>
+
+      <!-- Explore -->
+      <nav class="foot-col" aria-label="Explore">
+        <h4>Explore</h4>
+        <ul role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Products -->
+      <nav class="foot-col" aria-label="Products">
+        <h4>Products</h4>
+        <ul role="list">
+          <li><a href="products.html?category=Rice">Rice</a></li>
+          <li><a href="products.html?category=Oil">Oil</a></li>
+          <li><a href="products.html?category=Palm%20Oil">Palm Oil</a></li>
+          <li><a href="products.html?category=Fruits">Fruits</a></li>
+          <li><a href="products.html?category=Spices">Spices</a></li>
+          <li><a href="products.html?category=Sugar">Sugar</a></li>
+        </ul>
+      </nav>
+
+      <!-- Markets (flag dots injected) -->
+      <div class="foot-col">
+        <h4>Markets</h4>
+        <ul class="flag-dots" role="list" data-markets data-markets-dots></ul>
+      </div>
+
+      <!-- Get in touch -->
+      <div class="foot-col">
+        <h4>Get in Touch</h4>
+        <ul role="list">
+          <li><a data-config-href="whatsapp">WhatsApp — click to chat</a></li>
+          <li><a data-config-href="email" data-config="email">sasfood.ae@gmail.com</a></li>
+          <li><a data-config-href="phone" data-config="phone">+971 56 745 4014</a></li>
+          <li><span data-config="phone2">+971 52 605 0655</span></li>
+          <li><span data-config="address">Office 222, RAG Global Business Center, Al Qusais, Dubai, UAE</span></li>
+          <li><span data-config="hours">Sun–Thu, 9:00–18:00 (GST)</span></li>
+        </ul>
+        <p style="font-size:.74rem;color:var(--text-muted-on-dark);margin-top:.6rem">Bulk &amp; wholesale inquiries only.</p>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="foot-bottom">
+      <div class="left">© <span data-year>2026</span> Sara Alsalam Foodstuff Trading LLC. All rights reserved.</div>
+      <div class="center">Trade Markets · GCC · South Asia · Africa</div>
+      <div class="right">
+        <a href="#">Privacy</a> · <a href="#">Terms</a>
+        <a class="admin-dot" href="admin.html" aria-label="Admin"></a>
+      </div>
+    </div>
+  </div>
+
+  <p class="foot-fineprint">FOB / CIF terms available · MOQ applies to all products.</p>
+
+  <!-- Faint Burj Al Arab silhouette -->
+  <img class="foot-silhouette" src="assets/img/silhouettes/burj-al-arab.svg" alt="" aria-hidden="true">
+</footer>

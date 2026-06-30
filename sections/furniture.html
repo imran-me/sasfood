@@ -1,0 +1,36 @@
+<!-- ===========================================================================
+     sections/furniture.html — Site-wide UI furniture (shared on every page)
+     ---------------------------------------------------------------------------
+     Preloader, scroll-progress bar, floating contact dock, back-to-top pill.
+     Behaviour wired by nav.js / preloader.js. Links read from config.js.
+     ======================================================================== -->
+
+<!-- Preloader -->
+<div class="preloader" role="status" aria-label="Loading">
+  <div class="stack" style="align-items:center">
+    <img class="emblem" src="assets/img/brand/logo.png" alt="Sara Alsalam (Sara Gold)">
+    <div class="bar"><span></span></div>
+  </div>
+</div>
+
+<!-- Scroll progress hairline -->
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<!-- Floating contact dock -->
+<div class="dock" aria-label="Quick contact">
+  <a class="dock-wa" data-config-href="whatsapp" data-tip="WhatsApp" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-1.9-.1-.4-.1-1-.3-1.7-.6-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3 0-1.5.7-2.2 1-2.5.2-.3.5-.4.7-.4h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.3.3c-.2.2-.3.4-.2.7.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.2.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.1.5.2.5.4.1.2.1.9-.1 1.5Z"/></svg>
+  </a>
+  <a class="dock-mail" data-config-href="email" data-tip="Email" aria-label="Email our trade desk">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+  </a>
+</div>
+
+<!-- Back to top -->
+<button class="to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 15 6-6 6 6"/></svg>
+  Top
+</button>
+
+<!-- Toast container -->
+<div class="toast-wrap" aria-live="polite"></div>

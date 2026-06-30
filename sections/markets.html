@@ -1,0 +1,48 @@
+<!-- ===========================================================================
+     sections/markets.html — Global presence on a real (equirectangular) world map
+     ---------------------------------------------------------------------------
+     The map uses an equirectangular projection in DEGREE space:
+       viewBox="0 0 360 180"  →  x = longitude + 180,  y = 90 - latitude.
+     So every operating country (managed in Admin → Countries, each with lat/lng)
+     is placed GEOGRAPHICALLY. assets/js/markets-map.js injects the gold pins and
+     the animated trade-route lines from the Dubai hub, and builds the legend.
+     ======================================================================== -->
+<section class="markets section" id="markets" data-bg-section="markets">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <p class="eyebrow">Global Presence</p>
+      <h2>From Dubai, <span class="text-gold">Across the World</span></h2>
+      <span class="title-rule"></span>
+    </div>
+
+    <div class="map-wrap" data-reveal>
+      <svg class="world" viewBox="0 0 360 180" preserveAspectRatio="xMidYMid meet" role="img"
+           aria-label="World map showing Sara Alsalam's operating countries and trade routes from Dubai">
+
+        <!-- Faint latitude/longitude graticule. -->
+        <g class="graticule" aria-hidden="true">
+          <path d="M0 30H360 M0 60H360 M0 90H360 M0 120H360 M0 150H360"/>
+          <path d="M60 0V180 M120 0V180 M180 0V180 M240 0V180 M300 0V180"/>
+        </g>
+
+        <!-- Continents (stylised golden landmasses). -->
+        <g class="land" aria-hidden="true">
+          <path d="M150 16 C162 12 170 16 168 26 C162 32 152 30 150 24 C148 20 148 18 150 16 Z"/>
+          <path d="M40 30 C70 16 120 14 140 30 C150 40 132 46 122 52 C110 60 104 70 96 80 C90 86 84 78 82 70 C78 60 64 56 52 50 C40 44 30 40 40 30 Z"/>
+          <path d="M104 82 C120 78 140 86 142 98 C140 112 124 128 114 144 C108 150 104 140 106 124 C98 108 98 92 104 82 Z"/>
+          <path d="M168 58 C188 52 210 54 222 60 C232 68 230 82 222 96 C212 112 202 124 196 124 C188 120 184 104 176 92 C168 82 160 68 168 58 Z"/>
+          <path d="M170 50 C176 40 182 30 194 26 C206 24 216 32 216 42 C214 50 204 52 192 52 C182 54 168 58 170 50 Z"/>
+          <path d="M218 52 C222 38 236 28 262 22 C292 16 326 24 342 34 C340 44 318 50 304 58 C296 68 288 80 278 82 C268 82 262 74 256 80 C248 76 240 66 230 62 C224 60 216 60 218 52 Z"/>
+          <path d="M296 112 C306 104 320 104 332 114 C332 124 318 130 304 128 C294 124 290 118 296 112 Z"/>
+        </g>
+
+        <!-- Routes + pins injected here by markets-map.js. -->
+        <g class="routes" aria-hidden="true"></g>
+        <g class="pins"></g>
+      </svg>
+
+      <!-- Accessible / fallback legend (injected). -->
+      <ul class="market-legend" role="list" data-markets data-markets-dots></ul>
+    </div>
+  </div>
+</section>

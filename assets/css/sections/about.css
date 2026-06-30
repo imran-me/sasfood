@@ -1,0 +1,22 @@
+/* ============================================================================
+   sections/about.css — About preview (two-column story + framed image)
+   ========================================================================== */
+
+.about .grid--split { gap: clamp(2rem, 5vw, 4rem); }
+
+.about .values { display: flex; flex-wrap: wrap; gap: .6rem; margin: var(--space-5) 0; }
+
+.about .pull-quote {
+  font-family: var(--font-serif); font-style: italic; font-size: 1.4rem;
+  line-height: 1.5; color: var(--gold-300);
+  border-left: 2px solid var(--gold-500); padding-left: var(--space-4);
+  margin: var(--space-5) 0;
+}
+
+.about .about-media { position: relative; aspect-ratio: 4 / 5; }
+.about .about-media.has-filigree::before,
+.about .about-media.has-filigree::after { width: 34px; height: 34px; z-index: 2; }
+
+@media (max-width: 900px) {
+  .about .about-media { aspect-ratio: 16 / 10; }
+}

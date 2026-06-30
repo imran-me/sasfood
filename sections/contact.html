@@ -1,0 +1,105 @@
+<!-- ===========================================================================
+     sections/contact.html — Inquiry form (left) + contact card & map (right)
+     ---------------------------------------------------------------------------
+     Form handled by contact.js (validates -> WhatsApp/Gmail handoff + optional
+     store). Contact values + links come from config.js via main.js populateConfig.
+     data-bg-section="contact" -> Burj Al Arab + date palm silhouettes.
+     ======================================================================== -->
+<section class="contact section" id="contact" data-bg-section="contact">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">Get in Touch</p>
+      <h2>Start a Bulk Inquiry</h2>
+      <span class="title-rule"></span>
+      <p class="lead" style="margin-top:1rem">Wholesale &amp; bulk inquiries only. MOQ applies. FOB / CIF terms available.</p>
+    </div>
+
+    <div class="grid grid--split">
+      <!-- Inquiry form -->
+      <form class="card inquiry-form" data-inquiry novalidate style="padding:clamp(1.25rem,3vw,2rem)" data-reveal>
+        <div class="field--row">
+          <div class="field">
+            <label for="f-name">Name *</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name">
+            <span class="err">Please enter your name.</span>
+          </div>
+          <div class="field">
+            <label for="f-company">Company</label>
+            <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Company (optional)">
+          </div>
+        </div>
+
+        <div class="field--row">
+          <div class="field">
+            <label for="f-country">Destination country *</label>
+            <input id="f-country" name="country" type="text" placeholder="e.g. Qatar">
+            <span class="err">Please enter a destination.</span>
+          </div>
+          <div class="field">
+            <label for="f-product">Product interest *</label>
+            <select id="f-product" name="product">
+              <option value="">Select a category…</option>
+              <option>Rice</option><option>Oil</option><option>Palm Oil</option>
+              <option>Fruits</option><option>Spices</option><option>Sugar</option>
+              <option>Multiple / Other</option>
+            </select>
+            <span class="err">Please choose a product interest.</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-qty">Quantity / MOQ</label>
+          <input id="f-qty" name="qty" type="text" placeholder="e.g. 1 x 20ft container">
+        </div>
+
+        <div class="field">
+          <label for="f-message">Message</label>
+          <textarea id="f-message" name="message" placeholder="Tell us about your requirement, packaging and timeline…"></textarea>
+        </div>
+
+        <p class="form-note">On submit we'll open WhatsApp with your inquiry pre-filled. We never charge or transact on-site.</p>
+        <div class="submit-row">
+          <button class="btn btn--gold" type="submit">Send Inquiry</button>
+          <a class="btn btn--ghost" data-cta="gmail">Prefer Email?</a>
+        </div>
+      </form>
+
+      <!-- Contact card -->
+      <aside class="card contact-card" data-reveal>
+        <a class="contact-line" data-config-href="whatsapp">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Z"/></svg></span>
+          <span><span class="t">WhatsApp</span><br><span class="v">Click to chat — fastest reply</span></span>
+        </a>
+        <a class="contact-line" data-config-href="email">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+          <span><span class="t">Email</span><br><span class="v" data-config="email">{SALES_EMAIL}</span></span>
+        </a>
+        <a class="contact-line" data-config-href="phone">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7A2 2 0 0 1 22 16.9Z"/></svg></span>
+          <span><span class="t">Phone</span><br>
+            <span class="v"><span data-config="phone">+971 56 745 4014</span> · <span data-config="phone2">+971 52 605 0655</span></span>
+          </span>
+        </a>
+        <div class="contact-line">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+          <span><span class="t">Dubai HQ</span><br><span class="v" data-config="address">{ADDRESS_DUBAI}</span></span>
+        </div>
+        <div class="contact-line">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+          <span><span class="t">Hours</span><br><span class="v" data-config="hours">Sun–Thu, 9:00–18:00 (GST)</span></span>
+        </div>
+
+        <div class="socials">
+          <a class="icon-btn" data-config-href="instagram" aria-label="Instagram">IG</a>
+          <a class="icon-btn" data-config-href="linkedin" aria-label="LinkedIn">in</a>
+        </div>
+
+        <!-- Map: RAG Global Business Center, Al Qusais, Dubai (from the letterhead). -->
+        <div class="map">
+          <iframe title="Sara Alsalam — RAG Global Business Center, Al Qusais, Dubai" loading="lazy"
+                  src="https://www.google.com/maps?q=RAG+Global+Business+Center+Al+Hilal+Bank+Building+Al+Qusais+Dubai&output=embed"></iframe>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
