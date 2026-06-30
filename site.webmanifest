@@ -1,0 +1,14 @@
+{
+  "name": "Sara Alsalam Foodstuff Trading LLC",
+  "short_name": "Sara Alsalam",
+  "description": "International wholesale foodstuff trader — bulk rice, oils, sugar, spices and produce.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#0C3B2E",
+  "background_color": "#08291E",
+  "icons": [
+    { "src": "assets/img/icons/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "assets/img/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/img/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

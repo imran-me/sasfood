@@ -1,0 +1,24 @@
+/* ============================================================================
+   sections/cta.css — Full-width conversion band
+   ========================================================================== */
+
+.cta-band {
+  position: relative;
+  text-align: center;
+  background:
+    radial-gradient(80% 120% at 50% 0%, rgba(201,162,75,.12), transparent 60%),
+    linear-gradient(180deg, var(--green-800), var(--green-900));
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+}
+.cta-band .container { position: relative; z-index: 1; }
+.cta-band h2 { max-width: 20ch; margin: 0 auto var(--space-5); }
+.cta-band .cta-actions { display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap; margin-bottom: var(--space-5); }
+.cta-band .market-row { justify-content: center; }
+
+/* Faint filigree frame inside the band. */
+.cta-band::before {
+  content: ""; position: absolute; inset: clamp(1rem, 3vw, 2rem);
+  border: 1px solid var(--line); border-radius: var(--radius-lg); pointer-events: none;
+  -webkit-mask: linear-gradient(#000, transparent 70%); mask: linear-gradient(#000, transparent 70%);
+}

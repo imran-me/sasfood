@@ -1,0 +1,40 @@
+/* ============================================================================
+   sections/contact.css — Inquiry form (left) + contact card & map (right)
+   ----------------------------------------------------------------------------
+   Form handling lives in assets/js/contact.js. On submit it validates, stores
+   the inquiry (when a backend exists) and hands off to WhatsApp/Gmail.
+   ========================================================================== */
+
+.contact .grid--split { gap: clamp(2rem, 5vw, 4rem); align-items: stretch; }
+
+/* ---- Form ------------------------------------------------------------ */
+.inquiry-form { display: grid; gap: var(--space-4); }
+.field { display: flex; flex-direction: column; gap: .35rem; }
+.field label { font-size: var(--fs-eyebrow); letter-spacing: .12em; text-transform: uppercase; color: var(--gold-300); font-weight: 600; }
+.field input, .field select, .field textarea {
+  background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: .75rem .9rem; color: var(--cream-100); font-size: var(--fs-small);
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.field input::placeholder, .field textarea::placeholder { color: rgba(251,248,240,.4); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold-500); background: rgba(255,255,255,.05); outline: none; }
+.field textarea { resize: vertical; min-height: 110px; }
+.field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea { border-color: rgba(244,99,99,.7); }
+.field .err { font-size: .72rem; color: #ff9b9b; display: none; }
+.field.is-invalid .err { display: block; }
+.field--row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+.form-note { font-size: .76rem; color: var(--text-muted-on-dark); }
+.inquiry-form .submit-row { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+/* ---- Contact card ---------------------------------------------------- */
+.contact-card { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+.contact-line { display: flex; gap: .8rem; align-items: flex-start; }
+.contact-line .ic { flex: none; width: 38px; height: 38px; display: grid; place-items: center; border-radius: 50%; border: 1px solid var(--line); color: var(--gold-300); }
+.contact-line .ic svg { width: 18px; height: 18px; }
+.contact-line .t { font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--text-muted-on-dark); }
+.contact-line .v { color: var(--cream-100); font-size: var(--fs-small); }
+.contact-card .map { margin-top: auto; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16 / 9; }
+.contact-card .map iframe { width: 100%; height: 100%; border: 0; filter: saturate(.85) contrast(.95); }
+.contact-card .socials { display: flex; gap: .6rem; }
+
+@media (max-width: 560px) { .field--row { grid-template-columns: 1fr; } }

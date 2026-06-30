@@ -1,0 +1,44 @@
+/* ============================================================================
+   sections/markets.css — Global presence map with animated gold trade routes
+   ----------------------------------------------------------------------------
+   The map is an inline SVG in sections/markets.html. JS (reveal) triggers the
+   route-draw by toggling .is-drawn on the section.
+   ========================================================================== */
+
+.markets { position: relative; }
+.markets .map-wrap { position: relative; margin-top: var(--space-6); }
+.markets svg.world { width: 100%; height: auto; color: var(--green-700); }
+
+/* Land masses */
+.markets .land { fill: rgba(95,181,148,.10); stroke: var(--line); stroke-width: 1; }
+
+/* Trade-route arcs draw in via stroke-dashoffset. */
+.markets .route {
+  fill: none; stroke: var(--gold-500); stroke-width: 1.5; opacity: .8;
+  stroke-dasharray: var(--len, 600); stroke-dashoffset: var(--len, 600);
+  transition: stroke-dashoffset 1.6s var(--ease);
+}
+.markets.is-drawn .route { stroke-dashoffset: 0; }
+
+/* Market pins */
+.markets .pin { fill: var(--gold-300); cursor: pointer; transition: r var(--dur-fast) var(--ease); }
+.markets .pin:hover { fill: var(--saffron); }
+.markets .pin-glow { fill: var(--gold-500); opacity: .25; animation: pin-pulse 2.4s ease-in-out infinite; }
+@keyframes pin-pulse { 0%,100% { opacity: .12; } 50% { opacity: .35; } }
+
+/* Hover tooltip (market name + flag), positioned by JS. */
+.market-tip {
+  position: absolute; transform: translate(-50%, -130%);
+  background: var(--green-900); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: .3rem .6rem; font-size: .74rem; color: var(--cream-100);
+  pointer-events: none; opacity: 0; transition: opacity var(--dur-fast) var(--ease); white-space: nowrap;
+}
+.market-tip.is-shown { opacity: 1; }
+
+/* Fallback list of markets under the map (also good for a11y / no-SVG). */
+.market-legend { display: flex; flex-wrap: wrap; gap: .6rem; justify-content: center; margin-top: var(--space-6); }
+
+@media (prefers-reduced-motion: reduce) {
+  .markets .route { stroke-dashoffset: 0; transition: none; }
+  .markets .pin-glow { animation: none; }
+}

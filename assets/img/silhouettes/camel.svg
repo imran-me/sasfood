@@ -1,0 +1,8 @@
+<!-- Walking camel silhouette (CSS mask). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <path d="M14 40 Q20 24 30 36 Q38 22 48 36 Q56 26 64 38
+    L78 40 Q86 42 86 50 L84 58 L80 56 L80 46
+    L70 48 L70 86 L64 86 L62 56 L44 56 L42 86 L36 86 L36 54
+    Q28 52 26 60 L22 86 L16 86 L20 56 Q12 50 14 40 Z"/>
+  <path d="M12 40 Q6 38 8 32 Q14 30 16 36 Z"/>
+</svg>

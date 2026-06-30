@@ -1,0 +1,114 @@
+/* ============================================================================
+   tokens.css — Design tokens (the single source of truth for the brand system)
+   ----------------------------------------------------------------------------
+   Edit colours, fonts, spacing and radii HERE and they cascade everywhere.
+   Loaded FIRST, before every other stylesheet.
+   Brand rule: deep green is the canvas, gold is jewelry (<=10% of any view),
+   cream/sand carry readable light sections, saffron is a rare spark.
+   ========================================================================== */
+
+:root {
+  /* ---- Greens (canvas + surfaces) ------------------------------------- */
+  --green-900: #08291E;   /* deepest background, footer */
+  --green-800: #0C3B2E;   /* PRIMARY brand surface / dark sections */
+  --green-700: #114C3A;   /* cards on dark, gradients */
+  --green-500: #1E7A57;   /* secondary green, accents, success */
+  --green-300: #5FB594;   /* soft highlights, icon tints */
+
+  /* ---- Golds (the jewelry) -------------------------------------------- */
+  --gold-700: #9C7A28;    /* gold shadow / engrave */
+  --gold-500: #C9A24B;    /* PRIMARY gold — lines, eyebrows, CTAs */
+  --gold-300: #E6C766;    /* hover gold, glows */
+  --gold-metallic: linear-gradient(135deg,#BF953F,#FCF6BA,#B38728,#FBF5B7,#AA771C);
+
+  /* ---- Warm + neutral ------------------------------------------------- */
+  --saffron:   #F4C430;   /* warm spice accent, use sparingly */
+  --cream-100: #FBF8F0;   /* light section bg, text on dark */
+  --cream-200: #F2EAD7;   /* sand/beige panels */
+  --sand:      #E3D6B8;   /* dividers, subtle fills */
+  --ink-900:   #0A0F0D;   /* text on light */
+  --ink-600:   #3A4742;   /* body text on light */
+  --line:      rgba(201,162,75,.22); /* hairline borders (gold @ low alpha) */
+
+  /* ---- Semantic aliases ----------------------------------------------- */
+  --bg:           var(--green-800);
+  --bg-deep:      var(--green-900);
+  --surface-card: var(--green-700);
+  --text-on-dark: var(--cream-100);
+  --text-muted-on-dark: rgba(251,248,240,.72);
+  --text-on-light: var(--ink-900);
+  --accent:       var(--gold-500);
+  --accent-hover: var(--gold-300);
+
+  /* ---- Typography ----------------------------------------------------- */
+  --font-display: "Cinzel", "Times New Roman", serif;          /* H1–H2, engraved */
+  --font-serif:   "Cormorant Garamond", Georgia, serif;        /* leads, quotes */
+  --font-body:    "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Fluid type scale (clamp). Do NOT oversize — whitespace beats big fonts. */
+  --fs-h1:      clamp(2.4rem, 5vw, 4.6rem);
+  --fs-h2:      clamp(1.8rem, 3.4vw, 3rem);
+  --fs-h3:      1.5rem;
+  --fs-lead:    1.25rem;
+  --fs-body:    1rem;
+  --fs-small:   0.875rem;
+  --fs-eyebrow: 0.78rem;
+
+  --lh-heading: 1.15;
+  --lh-body:    1.7;
+  --measure:    68ch;     /* max text line length */
+  --tracking-eyebrow: 0.18em;
+
+  /* ---- Spacing scale (8pt-ish) ---------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --section-pad: clamp(3.5rem, 8vw, 7rem);  /* vertical padding per section */
+
+  /* ---- Layout --------------------------------------------------------- */
+  --container:   1240px;
+  --container-narrow: 880px;
+  --gutter:      clamp(1rem, 4vw, 2.5rem);
+
+  /* ---- Radii ---------------------------------------------------------- */
+  --radius-sm: 6px;
+  --radius:    12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows / glows ------------------------------------------------ */
+  --shadow-card: 0 10px 30px -12px rgba(0,0,0,.45);
+  --shadow-lift: 0 22px 48px -18px rgba(0,0,0,.55);
+  --glow-gold:   0 0 0 1px var(--line), 0 8px 28px -10px rgba(201,162,75,.35);
+
+  /* ---- Motion --------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);   /* ~power3.out */
+  --dur-fast: 180ms;
+  --dur:      320ms;
+  --dur-slow: 600ms;
+
+  /* ---- Z-index ladder ------------------------------------------------- */
+  --z-bg:        -1;
+  --z-grain:     0;
+  --z-content:   1;
+  --z-header:    50;
+  --z-dock:      60;
+  --z-overlay:   90;
+  --z-cursor:    100;
+  --z-preloader: 120;
+}
+
+/* Honour reduced motion globally by zeroing durations (JS also checks this). */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 1ms;
+    --dur: 1ms;
+    --dur-slow: 1ms;
+  }
+}

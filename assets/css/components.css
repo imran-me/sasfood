@@ -1,0 +1,238 @@
+/* ============================================================================
+   components.css — Reusable UI: buttons, chips, cards, badges, toasts, dock,
+   preloader, scroll-progress, back-to-top, custom cursor, reveal animation.
+   ----------------------------------------------------------------------------
+   Section-specific styling lives in assets/css/sections/*. Keep this file to
+   things used across multiple sections.
+   ========================================================================== */
+
+/* ===== Buttons ======================================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: .85rem 1.6rem;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  letter-spacing: .02em;
+  line-height: 1;
+  border: 1px solid transparent;
+  transition: transform var(--dur-fast) var(--ease),
+              box-shadow var(--dur) var(--ease),
+              background var(--dur) var(--ease),
+              color var(--dur) var(--ease);
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+.btn svg { width: 18px; height: 18px; }
+
+/* Primary — gold (the "Request a Quote" jewel) */
+.btn--gold {
+  background: var(--gold-metallic);
+  color: var(--green-900);
+  box-shadow: var(--glow-gold);
+}
+.btn--gold:hover { color: var(--green-900); box-shadow: 0 12px 34px -10px rgba(201,162,75,.5); }
+
+/* Ghost gold — secondary on dark */
+.btn--ghost {
+  border-color: var(--line);
+  color: var(--gold-300);
+  background: rgba(201,162,75,.04);
+}
+.btn--ghost:hover { border-color: var(--gold-500); background: rgba(201,162,75,.1); color: var(--gold-300); }
+
+/* WhatsApp green */
+.btn--whatsapp { background: #1FA855; color: #fff; }
+.btn--whatsapp:hover { background: #25D366; color: #fff; }
+
+/* Small inline variant for product cards */
+.btn--sm { padding: .55rem 1rem; font-size: .8rem; }
+
+/* ===== Chips & pills ================================================== */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .35rem .8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  color: var(--text-muted-on-dark);
+  background: rgba(255,255,255,.02);
+}
+.section--light .chip, .section--sand .chip { color: var(--ink-600); border-color: rgba(10,15,13,.12); }
+.chip .flag { font-size: 1rem; line-height: 1; }
+
+/* Filter pills (products) */
+.pill {
+  padding: .5rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--text-muted-on-dark);
+  background: transparent;
+  transition: all var(--dur-fast) var(--ease);
+}
+.pill:hover { color: var(--gold-300); border-color: var(--gold-500); }
+.pill[aria-pressed="true"], .pill.is-active {
+  background: var(--gold-metallic);
+  color: var(--green-900);
+  border-color: transparent;
+}
+
+/* ===== Glass card / panel ============================================= */
+.card {
+  position: relative;
+  background: linear-gradient(180deg, rgba(17,76,58,.55), rgba(12,59,46,.65));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  overflow: hidden;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); border-color: rgba(201,162,75,.4); }
+
+/* Gold filigree corner ornament (decorative). Add .has-filigree to a card. */
+.has-filigree::before, .has-filigree::after {
+  content: "";
+  position: absolute;
+  width: 26px; height: 26px;
+  border: 1.5px solid var(--gold-500);
+  opacity: .55;
+  pointer-events: none;
+}
+.has-filigree::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; border-top-left-radius: 6px; }
+.has-filigree::after  { bottom: 10px; right: 10px; border-left: 0; border-top: 0; border-bottom-right-radius: 6px; }
+
+/* Framed image with soft gold inner shadow on hover. */
+.framed {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.framed img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-slow) var(--ease); }
+.framed::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 0 rgba(201,162,75,0); transition: box-shadow var(--dur) var(--ease); pointer-events: none; }
+.framed:hover img { transform: scale(1.05); }
+.framed:hover::after { box-shadow: inset 0 0 40px -6px rgba(201,162,75,.4); }
+
+/* ===== Badges ========================================================= */
+.badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .3rem .7rem; border-radius: var(--radius-sm);
+  font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  background: rgba(244,196,48,.12); color: var(--saffron); border: 1px solid rgba(244,196,48,.3);
+}
+
+/* ===== Section reveal (JS toggles .is-visible) ======================== */
+[data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease); }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+[data-reveal-stagger] > * { opacity: 0; transform: translateY(24px); transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease); }
+[data-reveal-stagger].is-visible > * { opacity: 1; transform: none; }
+/* Stagger delay applied via inline --i custom property in JS. */
+[data-reveal-stagger].is-visible > * { transition-delay: calc(var(--i, 0) * 80ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal], [data-reveal-stagger] > * { opacity: 1 !important; transform: none !important; }
+}
+
+/* ===== Scroll progress bar (top hairline) ============================= */
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%;
+  transform: scaleX(0); transform-origin: left;
+  background: var(--gold-metallic);
+  z-index: var(--z-header);
+  pointer-events: none;
+}
+
+/* ===== Floating contact dock ========================================= */
+.dock {
+  position: fixed; right: clamp(1rem, 3vw, 1.75rem); bottom: clamp(1rem, 3vw, 1.75rem);
+  display: flex; flex-direction: column; gap: .75rem;
+  z-index: var(--z-dock);
+}
+.dock a {
+  display: grid; place-items: center;
+  width: 52px; height: 52px; border-radius: 50%;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  transition: transform var(--dur) var(--ease);
+}
+.dock a:hover { transform: scale(1.08); }
+.dock a svg { width: 24px; height: 24px; }
+.dock .dock-wa { background: #25D366; color: #fff; animation: pulse 2.6s var(--ease) infinite; }
+.dock .dock-mail { background: var(--gold-metallic); color: var(--green-900); }
+.dock a[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; right: 110%; top: 50%; transform: translateY(-50%);
+  background: var(--green-900); color: var(--cream-100);
+  font-size: .72rem; white-space: nowrap; padding: .3rem .6rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  opacity: 0; pointer-events: none; transition: opacity var(--dur-fast) var(--ease);
+}
+.dock a[data-tip]:hover::after { opacity: 1; }
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,.4); }
+  50% { box-shadow: 0 0 0 10px rgba(37,211,102,0); }
+}
+@media (prefers-reduced-motion: reduce) { .dock .dock-wa { animation: none; } }
+
+/* ===== Back-to-top pill ============================================== */
+.to-top {
+  position: fixed; left: clamp(1rem, 3vw, 1.75rem); bottom: clamp(1rem, 3vw, 1.75rem);
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .6rem 1rem; border-radius: var(--radius-pill);
+  background: rgba(12,59,46,.8); border: 1px solid var(--line); color: var(--gold-300);
+  font-size: .78rem; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none; transform: translateY(10px);
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: var(--z-dock);
+}
+.to-top.is-shown { opacity: 1; pointer-events: auto; transform: none; }
+
+/* ===== Toasts ======================================================== */
+.toast-wrap { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: .5rem; z-index: var(--z-overlay); }
+.toast {
+  padding: .8rem 1.2rem; border-radius: var(--radius);
+  background: var(--green-700); color: var(--cream-100);
+  border: 1px solid var(--line); box-shadow: var(--shadow-lift);
+  font-size: var(--fs-small);
+  animation: toast-in var(--dur) var(--ease);
+}
+.toast--ok { border-color: rgba(95,181,148,.5); }
+.toast--err { border-color: rgba(244,99,99,.5); }
+@keyframes toast-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* ===== Preloader ===================================================== */
+.preloader {
+  position: fixed; inset: 0; z-index: var(--z-preloader);
+  display: grid; place-items: center;
+  background: var(--green-900);
+  transition: opacity var(--dur-slow) var(--ease), visibility var(--dur-slow) var(--ease);
+}
+.preloader.is-done { opacity: 0; visibility: hidden; }
+.preloader .emblem { height: 110px; width: auto; max-width: 80vw; }
+.preloader .bar { width: 160px; height: 2px; margin-top: 1.25rem; background: var(--line); overflow: hidden; border-radius: 2px; }
+.preloader .bar > span { display: block; height: 100%; width: 40%; background: var(--gold-metallic); animation: load-sweep 1s var(--ease) infinite; }
+@keyframes load-sweep { 0% { transform: translateX(-120%); } 100% { transform: translateX(320%); } }
+
+/* ===== Custom cursor (desktop pointer devices only) ================== */
+.cursor-ring {
+  position: fixed; top: 0; left: 0; width: 26px; height: 26px;
+  border: 1.5px solid var(--gold-500); border-radius: 50%;
+  transform: translate(-50%, -50%); pointer-events: none; z-index: var(--z-cursor);
+  transition: width var(--dur-fast) var(--ease), height var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
+  mix-blend-mode: difference;
+}
+.cursor-ring.is-hover { width: 44px; height: 44px; background: rgba(201,162,75,.12); }
+@media (hover: none), (pointer: coarse) { .cursor-ring { display: none; } }
+@media (prefers-reduced-motion: reduce) { .cursor-ring { display: none; } }

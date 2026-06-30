@@ -1,0 +1,8 @@
+<!-- Arabian oil / spice lamp silhouette (CSS mask). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <path d="M20 64 Q20 50 42 48 L58 48 Q82 50 82 62 Q82 70 60 72 L40 72 Q20 70 20 64 Z"/>
+  <path d="M82 60 Q94 58 94 64 Q94 70 84 66 Z"/>
+  <path d="M44 48 Q44 40 50 38 Q56 40 56 48 Z"/>
+  <path d="M49 38 Q49 30 52 26 Q55 32 51 38 Z"/>
+  <rect x="36" y="72" width="28" height="5" rx="2"/>
+</svg>

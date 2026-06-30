@@ -1,0 +1,5 @@
+<!-- Burj Khalifa — stylised tapering spire silhouette (used as a CSS mask). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <path d="M49 4 L51 4 L52 18 L55 20 L54 34 L58 36 L57 52 L62 55 L60 74 L66 78 L64 96 L36 96 L34 78 L40 74 L38 55 L43 52 L42 36 L46 34 L45 20 L48 18 Z"/>
+  <rect x="49.2" y="0" width="1.6" height="6"/>
+</svg>

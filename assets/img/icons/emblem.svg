@@ -1,0 +1,33 @@
+<!-- ===========================================================================
+     emblem.svg — Primary brand mark: gold "S·A" monogram + crescent in a fine
+     gold ring on deep green. Full-colour; used in header, footer, preloader,
+     admin and app icons. Edit the gradient stops to tune the metallic gold.
+     ======================================================================== -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Sara Alsalam emblem">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#BF953F"/>
+      <stop offset="0.35" stop-color="#FCF6BA"/>
+      <stop offset="0.6" stop-color="#B38728"/>
+      <stop offset="0.85" stop-color="#FBF5B7"/>
+      <stop offset="1" stop-color="#AA771C"/>
+    </linearGradient>
+  </defs>
+
+  <!-- deep green disc -->
+  <circle cx="50" cy="50" r="48" fill="#0C3B2E"/>
+  <!-- fine gold ring -->
+  <circle cx="50" cy="50" r="44" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <circle cx="50" cy="50" r="39" fill="none" stroke="url(#gold)" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- crescent above the monogram -->
+  <path d="M50 16 a10 10 0 1 0 6 18 a8 8 0 1 1 -6 -18 Z" fill="url(#gold)"/>
+
+  <!-- S·A monogram -->
+  <text x="50" y="66" text-anchor="middle" font-family="Cinzel, Georgia, serif"
+        font-size="30" font-weight="700" letter-spacing="1" fill="url(#gold)">S&#183;A</text>
+
+  <!-- wheat sprig under the monogram -->
+  <path d="M50 74 l0 12 M50 80 q-5 -1 -7 -5 M50 80 q5 -1 7 -5 M50 85 q-5 -1 -7 -5 M50 85 q5 -1 7 -5"
+        stroke="url(#gold)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+</svg>

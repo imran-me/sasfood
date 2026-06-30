@@ -1,0 +1,5 @@
+<!-- Rolling desert dunes silhouette (CSS mask). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <path d="M0 70 Q24 50 46 64 Q66 76 100 58 V100 H0 Z"/>
+  <path d="M0 82 Q30 66 56 78 Q78 88 100 76 V100 H0 Z" opacity="0.8"/>
+</svg>

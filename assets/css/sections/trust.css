@@ -1,0 +1,31 @@
+/* ============================================================================
+   sections/trust.css — Trust strip (animated stat counters + certification row)
+   ========================================================================== */
+
+.trust {
+  border-block: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(8,41,30,.4), rgba(12,59,46,.2));
+}
+.trust .stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-5);
+  text-align: center;
+}
+.stat .num {
+  font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--gold-300); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.stat .num .suffix { color: var(--gold-500); }
+.stat .label {
+  margin-top: .5rem; font-size: var(--fs-eyebrow); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-muted-on-dark);
+}
+
+.certs {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;
+  margin-top: var(--space-7); padding-top: var(--space-6); border-top: 1px solid var(--line);
+}
+.certs .chip { background: rgba(201,162,75,.06); }
+
+@media (max-width: 720px) {
+  .trust .stats { grid-template-columns: repeat(2, 1fr); gap: var(--space-6) var(--space-4); }
+}

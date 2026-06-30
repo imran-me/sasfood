@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#08291E">
+  <!-- Admin is private: keep it out of search engines. -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin — Sara Alsalam Foodstuff Trading LLC</title>
+
+  <link rel="icon" href="assets/img/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/sections/contact.css"><!-- reuse .field / .inquiry-form -->
+  <link rel="stylesheet" href="assets/css/sections/products.css"><!-- reuse product-card preview -->
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+
+<body class="admin">
+
+  <!-- =========================================================================
+       ADMIN PANEL (separate page) — FULLY FUNCTIONAL via localStorage (Store).
+       Products / Ads / Inquiries / Settings all persist and reflect on the
+       public site. Demo auth only (sessionStorage) — swap for Firebase in Phase 8.
+       Demo login: admin@saraalsalam.com / demo1234
+       ====================================================================== -->
+
+  <!-- ===== Login screen ===== -->
+  <div class="admin-login">
+    <form class="login-card" id="admin-login-form" novalidate>
+      <img class="emblem" src="assets/img/brand/logo.png" alt="Sara Alsalam (Sara Gold)">
+      <h1>Admin Panel</h1>
+      <p>Sara Alsalam Foodstuff Trading LLC</p>
+      <div class="inquiry-form">
+        <div class="field">
+          <label for="a-email">Email</label>
+          <input id="a-email" name="email" type="email" autocomplete="username" placeholder="admin@saraalsalam.com">
+        </div>
+        <div class="field">
+          <label for="a-pass">Password</label>
+          <input id="a-pass" name="password" type="password" autocomplete="current-password" placeholder="••••••••">
+        </div>
+        <span class="err" style="display:none;color:#ff9b9b;font-size:.78rem"></span>
+        <button class="btn btn--gold" type="submit" style="width:100%">Sign In</button>
+        <p class="form-note" style="text-align:center">Demo: admin@saraalsalam.com / demo1234</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- ===== Dashboard shell (revealed after login) ===== -->
+  <div class="admin-shell">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <a class="brand" href="index.html">
+        <img class="mark" src="assets/img/brand/logo.png" alt="Sara Alsalam (Sara Gold)">
+        <span class="wordmark"><b>Sara Alsalam</b><small>Admin</small></span>
+      </a>
+      <button class="admin-nav-btn is-active" data-tab="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </button>
+      <button class="admin-nav-btn" data-tab="products">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m21 16-9 5-9-5V8l9-5 9 5z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
+        Products
+      </button>
+      <button class="admin-nav-btn" data-tab="ads">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 9 9 6 9-6"/></svg>
+        Ads / Banners
+      </button>
+      <button class="admin-nav-btn" data-tab="inquiries">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Inquiries <span class="status-tag new" id="inq-badge" style="margin-left:auto">0</span>
+      </button>
+      <button class="admin-nav-btn" data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 6.6 19.4l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 9H4.5a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 6.6 4.6l-.06-.06A2 2 0 1 1 9.37 1.7l.06.06A1.65 1.65 0 0 0 12 2.4V4.5"/></svg>
+        Settings
+      </button>
+      <button class="admin-nav-btn logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        Log out
+      </button>
+    </aside>
+
+    <!-- Main -->
+    <main class="admin-main">
+
+      <!-- ===== Dashboard ===== -->
+      <section class="admin-panel is-active" data-panel="dashboard">
+        <div class="admin-topbar"><h1>Dashboard</h1></div>
+        <div class="admin-stats">
+          <div class="card admin-stat"><div class="n" id="stat-products">0</div><div class="l">Products</div></div>
+          <div class="card admin-stat"><div class="n" id="stat-ads">0</div><div class="l">Active Ads</div></div>
+          <div class="card admin-stat"><div class="n" id="stat-inquiries">0</div><div class="l">New Inquiries</div></div>
+        </div>
+        <div class="card" style="padding:1.25rem">
+          <h3 style="color:var(--cream-100);margin-bottom:.75rem">Recent inquiries</h3>
+          <div style="overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Country</th><th>Product</th><th>When</th></tr></thead>
+              <tbody id="recent-inquiries"></tbody>
+            </table>
+          </div>
+          <div class="row" style="margin-top:1rem">
+            <button class="btn btn--gold btn--sm" data-jump="products">+ Add product</button>
+            <button class="btn btn--ghost btn--sm" data-jump="inquiries">View inquiries</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== Products ===== -->
+      <section class="admin-panel" data-panel="products">
+        <!-- List view -->
+        <div id="products-view">
+          <div class="admin-topbar">
+            <h1>Products</h1>
+            <div class="row">
+              <button class="btn btn--ghost btn--sm" id="reset-demo" title="Wipe and re-seed the 10 sample products">Reset demo data</button>
+              <button class="btn btn--gold" id="add-product">+ Add Product</button>
+            </div>
+          </div>
+          <div class="card" style="padding:1rem;overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Name</th><th>Category</th><th>Origins</th><th>Featured</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="products-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Editor view (rendered by admin.js) -->
+        <div id="product-editor" hidden></div>
+      </section>
+
+      <!-- ===== Ads / Banners ===== -->
+      <section class="admin-panel" data-panel="ads">
+        <div id="ads-view">
+          <div class="admin-topbar"><h1>Ads / Banners</h1>
+            <button class="btn btn--gold" id="add-ad">+ New Banner</button>
+          </div>
+          <div class="card" style="padding:1rem;overflow-x:auto">
+            <table class="admin-table">
+              <thead><tr><th>Title</th><th>Placement</th><th>CTA</th><th>Active</th><th>Actions</th></tr></thead>
+              <tbody id="ads-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="ad-editor" hidden></div>
+      </section>
+
+      <!-- ===== Inquiries ===== -->
+      <section class="admin-panel" data-panel="inquiries">
+        <div class="admin-topbar"><h1>Inquiries</h1>
+          <button class="btn btn--ghost btn--sm" id="export-csv">Export CSV</button>
+        </div>
+        <div class="card" style="padding:1rem;overflow-x:auto">
+          <table class="admin-table">
+            <thead><tr><th>Name</th><th>Company</th><th>Country</th><th>Product</th><th>Qty</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="inquiries-tbody"></tbody>
+          </table>
+          <p class="form-note" style="margin-top:.75rem">Inquiries submitted via the public contact form land here automatically.</p>
+        </div>
+      </section>
+
+      <!-- ===== Settings ===== -->
+      <section class="admin-panel" data-panel="settings">
+        <div class="admin-topbar"><h1>Site Settings</h1></div>
+        <div class="card" style="padding:1.5rem">
+          <p style="color:var(--text-muted-on-dark);margin-bottom:1.25rem">
+            Saved here, these values drive every CTA on the public site (WhatsApp,
+            email, phone, address, map, socials) — no redeploy needed.
+          </p>
+          <form id="settings-form" class="inquiry-form" style="max-width:620px">
+            <div class="field--row">
+              <div class="field"><label for="s-whatsapp">WhatsApp (E.164, no +)</label><input id="s-whatsapp" name="whatsapp" type="text" placeholder="9715XXXXXXXX"></div>
+              <div class="field"><label for="s-email">Sales email</label><input id="s-email" name="email" type="email" placeholder="sales@saraalsalam.com"></div>
+            </div>
+            <div class="field--row">
+              <div class="field"><label for="s-phone">Phone</label><input id="s-phone" name="phone" type="text" placeholder="+971 4 XXX XXXX"></div>
+              <div class="field"><label for="s-hours">Business hours</label><input id="s-hours" name="hours" type="text" placeholder="Sun–Thu, 9:00–18:00 (GST)"></div>
+            </div>
+            <div class="field"><label for="s-address">Dubai address</label><input id="s-address" name="address" type="text" placeholder="Office, Dubai, UAE"></div>
+            <div class="field"><label for="s-map">Google Maps URL</label><input id="s-map" name="mapUrl" type="text" placeholder="https://maps.google.com/..."></div>
+            <div class="field--row">
+              <div class="field"><label for="s-ig">Instagram URL</label><input id="s-ig" name="instagram" type="text" placeholder="https://instagram.com/..."></div>
+              <div class="field"><label for="s-li">LinkedIn URL</label><input id="s-li" name="linkedin" type="text" placeholder="https://linkedin.com/company/..."></div>
+            </div>
+            <div class="submit-row">
+              <button class="btn btn--gold" type="submit">Save Settings</button>
+              <span class="form-note">Tip: also update <code>assets/js/config.js</code> so fresh visitors get these before the Store seeds.</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-wrap" aria-live="polite"></div>
+
+  <!-- ===== Scripts ===== -->
+  <script src="assets/js/config.js"></script>
+  <script src="assets/data/products.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/img-fallback.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>

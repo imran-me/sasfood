@@ -1,0 +1,48 @@
+<!-- ===========================================================================
+     sections/markets.html — Global presence map with animated gold trade routes
+     ---------------------------------------------------------------------------
+     A stylised (not geographically exact) world used as a decorative backdrop
+     for the six trade routes arcing out of Dubai. reveal.js adds .is-drawn to
+     animate the arcs. The legend below is the accessible source of truth and is
+     injected from config.js ([data-markets][data-markets-dots]).
+     ======================================================================== -->
+<section class="markets section" id="markets" data-bg-section="markets">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <p class="eyebrow">Global Presence</p>
+      <h2>From Dubai to Six Markets</h2>
+      <span class="title-rule"></span>
+    </div>
+
+    <div class="map-wrap" data-reveal>
+      <svg class="world" viewBox="0 0 1000 460" role="img"
+           aria-label="Trade routes from Dubai to Qatar, India, Bangladesh, Iraq and South Africa">
+        <!-- Abstract land masses (purely decorative) -->
+        <path class="land" d="M120 120 q60-40 160-30 t180 10 q40 20 10 60 t-120 50 q-100 20 -180-10 t-60-80Z"/>
+        <path class="land" d="M520 90 q120-30 230 10 q60 40 30 110 q-50 70 -160 70 q-120 0 -150-80 q-20-80 50-120Z"/>
+        <path class="land" d="M560 290 q70-10 110 40 q30 60 -10 100 q-60 40 -110-10 q-40-70 10-130Z"/>
+
+        <!-- Trade routes (Dubai hub ~520,200). --len ~ path length. -->
+        <path class="route" style="--len:120" d="M520 200 Q545 185 565 195"/>            <!-- Qatar -->
+        <path class="route" style="--len:220" d="M520 200 Q620 170 690 215"/>            <!-- India -->
+        <path class="route" style="--len:300" d="M520 200 Q650 150 760 205"/>            <!-- Bangladesh -->
+        <path class="route" style="--len:160" d="M520 200 Q500 150 470 130"/>            <!-- Iraq -->
+        <path class="route" style="--len:360" d="M520 200 Q470 320 600 360"/>            <!-- South Africa -->
+
+        <!-- Hub + market pins (title = accessible label) -->
+        <g>
+          <circle class="pin-glow" cx="520" cy="200" r="14"/>
+          <circle class="pin" cx="520" cy="200" r="6"><title>Dubai (UAE) — Hub</title></circle>
+          <circle class="pin" cx="567" cy="196" r="5"><title>Qatar</title></circle>
+          <circle class="pin" cx="692" cy="216" r="5"><title>India</title></circle>
+          <circle class="pin" cx="762" cy="206" r="5"><title>Bangladesh</title></circle>
+          <circle class="pin" cx="468" cy="129" r="5"><title>Iraq</title></circle>
+          <circle class="pin" cx="602" cy="361" r="5"><title>South Africa</title></circle>
+        </g>
+      </svg>
+
+      <!-- Accessible / fallback legend (injected) -->
+      <ul class="market-legend" role="list" data-markets></ul>
+    </div>
+  </div>
+</section>

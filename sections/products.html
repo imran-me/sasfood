@@ -1,0 +1,30 @@
+<!-- ===========================================================================
+     sections/products.html — Products showcase (centerpiece)
+     ---------------------------------------------------------------------------
+     .filter-bar pills and .product-grid cards are rendered by products.js from
+     assets/data/products.js. data-bg-section="products" fades in the spice lamp
+     + wheat silhouettes.
+     ======================================================================== -->
+<section class="section" id="products" data-bg-section="products">
+  <div class="container">
+    <div class="section-head section-head--center" data-reveal>
+      <p class="eyebrow">The Showcase</p>
+      <h2>A Curated Catalogue, Traded in Bulk</h2>
+      <span class="title-rule"></span>
+      <p class="lead" style="margin-top:1rem">
+        Six core categories, export-graded and packed to your destination's standards.
+        Browse, then start a conversation — no carts, just trade.
+      </p>
+    </div>
+
+    <!-- Category filter pills (injected by products.js) -->
+    <div class="filter-bar" role="group" aria-label="Filter products by category"></div>
+
+    <!-- Product cards (injected by products.js) -->
+    <div class="product-grid" data-reveal-stagger></div>
+
+    <div class="row row--center" style="margin-top:2.5rem">
+      <a class="btn btn--ghost" href="products.html">View Full Catalogue &rarr;</a>
+    </div>
+  </div>
+</section>

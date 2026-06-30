@@ -1,0 +1,5 @@
+<!-- Dubai Frame — rectangular monument silhouette (CSS mask). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
+  <path d="M14 96 V20 H86 V96 H74 V32 H26 V96 Z"/>
+  <rect x="14" y="14" width="72" height="8"/>
+</svg>
