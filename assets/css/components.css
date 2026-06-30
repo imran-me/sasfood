@@ -86,25 +86,51 @@
   border-color: transparent;
 }
 
-/* ===== Glass card / panel ============================================= */
-/* Cards keep the deep-green glass, now veiled with a faint gold arabesque
-   flower damask (soft-light blend) and a 25%-thicker gold hairline border. */
+/* ===== Glass card / panel =============================================
+   Deep-green jewel cards that FLOAT off the canvas (layered soft shadow), with
+   a gold edge and a faint arabesque motif that pools in the centre and dissolves
+   well before the border — so the border always reads crisp. Alternate cards
+   swap the motif (.motif-b) for gentle variety across rows. */
 .card {
   position: relative;
-  background:
-    url("../img/patterns/arabesque-gold.svg") center / 92px repeat,
-    linear-gradient(180deg, rgba(17,76,58,.55), rgba(12,59,46,.65));
-  background-blend-mode: normal, normal;   /* pattern shown at its own ~80% alpha */
-  border: 2.2px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
-  /* NOTE: backdrop-filter removed on cards — it forced an expensive re-blur of
-     every on-screen card on each scroll frame, which made desktop wheel-scroll
-     feel "stuck". The opaque green gradient reads the same over the dark canvas. */
+  background: linear-gradient(180deg, rgba(17,76,58,.60), rgba(9,44,34,.76));
+  border: 2.2px solid rgba(201,162,75,.30);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 24px 50px -24px rgba(0,0,0,.72),     /* deep floating shadow */
+    0 6px 18px -12px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.05);   /* hairline top sheen */
   overflow: hidden;
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  isolation: isolate;                      /* contains the -1 pattern layer */
+  transition: transform .55s var(--ease), box-shadow .55s var(--ease), border-color .45s var(--ease);
 }
-.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); border-color: rgba(201,162,75,.4); }
+/* Faint motif, radially feathered (and softly blurred) so it never touches the
+   gold border. Very low opacity = luxurious, not busy. */
+.card::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: var(--card-pattern, url("../img/patterns/arabesque-gold.svg")) center / 132px repeat;
+  opacity: .11;
+  -webkit-mask-image: radial-gradient(108% 94% at 50% 44%, #000 22%, rgba(0,0,0,.35) 58%, transparent 84%);
+          mask-image: radial-gradient(108% 94% at 50% 44%, #000 22%, rgba(0,0,0,.35) 58%, transparent 84%);
+  filter: blur(.4px);
+  transition: opacity .55s var(--ease);
+}
+/* Alternate motif (geometric khatam star). */
+.card.motif-b::before { background-image: url("../img/patterns/geo-gold.svg"); }
+/* Static card grids alternate the motif by position (every other card). */
+.grid > .card:nth-child(even)::before,
+.cap-grid > .card:nth-child(even)::before { background-image: url("../img/patterns/geo-gold.svg"); }
+
+/* Luxurious lift: rises, gold edge ignites, warm gold halo blooms beneath. */
+.card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(201,162,75,.62);
+  box-shadow:
+    0 44px 86px -30px rgba(0,0,0,.80),
+    0 0 0 1px rgba(201,162,75,.22),
+    0 18px 56px -16px rgba(201,162,75,.24);   /* gold ambient glow */
+}
+.card:hover::before { opacity: .17; }
 
 /* Gold filigree corner ornament (decorative). Add .has-filigree to a card. */
 .has-filigree::before, .has-filigree::after {

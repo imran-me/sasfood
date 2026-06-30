@@ -302,7 +302,7 @@
     const chips = [...(p.origins || []).slice(0, 2), ...(p.packaging || []).slice(0, 1)]
       .map((x) => `<span class="chip">${esc(x)}</span>`).join("");
     return `
-      <article class="card product-card has-filigree">
+      <article class="card product-card">
         <div class="media">
           <span class="cat-eyebrow">${esc(p.category || "Category")}</span>
           <img src="${esc(resolveImg(img.url))}" alt="${esc(img.alt || p.name)}">

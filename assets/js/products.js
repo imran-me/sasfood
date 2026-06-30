@@ -50,14 +50,14 @@ window.initProducts = function initProducts() {
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-  const cardHTML = (p) => {
+  const cardHTML = (p, i) => {
     const img = (p.images && p.images[0]) || { url: "", alt: p.name };
     const origins = (p.origins || []).slice(0, 2)
       .map((o) => `<span class="chip">${esc(o)}</span>`).join("");
     const packs = (p.packaging || []).slice(0, 2)
       .map((pk) => `<span class="chip">${esc(pk)}</span>`).join("");
     return `
-    <article class="card product-card has-filigree" data-cat="${esc(p.category)}" data-slug="${esc(p.slug)}" data-reveal>
+    <article class="card product-card ${i % 2 ? "motif-b" : ""}" data-cat="${esc(p.category)}" data-slug="${esc(p.slug)}" data-reveal>
       <div class="media">
         <span class="cat-eyebrow">${esc(p.category)}</span>
         <img src="${esc(resolveImg(img.url))}" alt="${esc(img.alt || p.name)}" loading="lazy" decoding="async">

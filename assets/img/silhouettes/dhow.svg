@@ -1,7 +1,0 @@
-<!-- Traditional Arabian dhow with triangular sail (CSS mask). -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
-  <path d="M8 72 Q50 92 92 72 L84 80 Q50 96 16 80 Z"/>
-  <rect x="49" y="20" width="2" height="52"/>
-  <path d="M51 22 Q82 40 72 68 L51 68 Z"/>
-  <path d="M49 30 Q22 46 30 66 L49 66 Z"/>
-</svg>

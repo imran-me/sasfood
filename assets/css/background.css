@@ -31,9 +31,10 @@
    into deep green further down. A slow Ken-Burns drift keeps it alive. */
 .bg-stage .bg-scene {
   position: absolute; inset: 0;
-  background: url("../img/bg/dubai-gold.jpg") center 22% / cover no-repeat;
-  opacity: .62;
-  filter: saturate(1.06) contrast(1.02);
+  /* Transparent golden Dubai scene (its own soft oval edge blends already). */
+  background: url("../img/bg/dubai-scene.webp") center 24% / cover no-repeat;
+  opacity: .68;
+  filter: saturate(1.05) contrast(1.02);
   /* Radial feather: fully visible around the upper-centre, melting to nothing
      at the edges so the rectangular photo never shows a seam. */
   -webkit-mask-image: radial-gradient(118% 92% at 50% 30%, #000 42%, rgba(0,0,0,.45) 68%, transparent 100%);
@@ -55,11 +56,27 @@
     linear-gradient(180deg, rgba(8,41,30,.18) 0%, rgba(12,59,46,.40) 42%, rgba(8,41,30,.86) 100%);
 }
 
-/* No photo, no problem: hide the empty mask box if the image fails to load is
-   automatic (a missing CSS background simply paints nothing over the green). */
+/* Floating golden accents (Burj, camels, panorama) — transparent PNGs placed by
+   background.js per section. Feathered + blurred + low opacity so they read as
+   luminous golden ghosts, never busy. They fade in as their section enters. */
+.bg-stage .bg-accent {
+  position: absolute;
+  opacity: 0;
+  background-position: center; background-repeat: no-repeat; background-size: contain;
+  filter: blur(1.1px) drop-shadow(0 6px 26px rgba(201,162,75,.16));
+  -webkit-mask-image: radial-gradient(72% 72% at 50% 50%, #000 52%, transparent 100%);
+          mask-image: radial-gradient(72% 72% at 50% 50%, #000 52%, transparent 100%);
+  transition: opacity 1.3s var(--ease), transform 1.3s var(--ease);
+  will-change: transform, opacity;
+}
+.bg-stage .bg-accent.is-in { opacity: var(--acc-op, .15); }
+
+/* No photo, no problem: a missing CSS background simply paints nothing over the
+   green canvas — the site degrades gracefully. */
 
 @media (prefers-reduced-motion: reduce) {
   .bg-stage .bg-scene { animation: none; transform: scale(1.05); }
+  .bg-stage .bg-accent.float, .bg-stage .bg-accent.float--slow { animation: none; }
 }
 
 /* Each parallax layer; JS sets data-depth (0.15 / 0.4 / 0.7). */

@@ -1,6 +1,0 @@
-<!-- Burj Al Arab — sail-shaped hotel silhouette (CSS mask). -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#000">
-  <path d="M40 96 L40 16 Q40 6 48 4 L48 96 Z"/>
-  <path d="M48 8 Q70 40 64 96 L48 96 Z"/>
-  <path d="M48 8 Q48 4 52 6 Q60 16 58 30 L48 24 Z"/>
-</svg>

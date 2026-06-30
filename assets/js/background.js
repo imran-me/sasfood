@@ -19,11 +19,54 @@ window.initBackground = function initBackground() {
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // NOTE: the masked SVG monument silhouettes (camel, Burj, dhow, …) were
-  // replaced by the cinematic golden Dubai photograph — see
-  // sections/background.html (.bg-scene) + background.css. The photo carries the
-  // Dubai story now; here we keep only the drifting golden "sand" particles
-  // layered on top for the signature moving-gold-dust effect.
+  // The masked SVG monument silhouettes were replaced by real GOLDEN, TRANSPARENT
+  // art: a cinematic Dubai scene behind the hero (.bg-scene) plus these faint,
+  // floating accents (Burj / camels / panorama) that fade in per section. All are
+  // heavily feathered + low-opacity so they enrich without ever competing.
+  const DIR = "assets/img/scenes/";
+  const ACCENTS = [
+    { file: "panorama.webp", section: "about",   x: 78, y: 64, w: 62, op: 0.13, float: "slow" },
+    { file: "camels.webp",   section: "products", x: 18, y: 72, w: 44, op: 0.14, float: true },
+    { file: "burj.webp",     section: "markets",  x: 86, y: 52, w: 30, op: 0.16, float: "slow" },
+    { file: "panorama.webp", section: "cta",      x: 50, y: 76, w: 80, op: 0.12, float: "slow" },
+    { file: "camels.webp",   section: "contact",  x: 80, y: 70, w: 40, op: 0.13, float: true },
+  ];
+
+  const placed = [];
+  ACCENTS.forEach((a) => {
+    const el = document.createElement("div");
+    el.className = "bg-accent" + (a.float === true ? " float" : a.float === "slow" ? " float float--slow" : "");
+    el.setAttribute("aria-hidden", "true");
+    el.dataset.section = a.section;
+    Object.assign(el.style, {
+      left: a.x + "%",
+      top: a.y + "%",
+      width: a.w + "vmin",
+      height: a.w * 0.7 + "vmin",
+      transform: "translate(-50%, -50%)",
+      backgroundImage: `url(${DIR}${a.file})`,
+    });
+    el.style.setProperty("--acc-op", a.op);
+    stage.appendChild(el);
+    placed.push({ el, section: a.section });
+  });
+
+  const showFor = (s) => placed.forEach((p) => { if (p.section === s) p.el.classList.add("is-in"); });
+  if (reduce) {
+    placed.forEach((p) => p.el.classList.add("is-in"));
+  } else {
+    const secs = document.querySelectorAll("[data-bg-section]");
+    if ("IntersectionObserver" in window && secs.length) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) showFor(e.target.dataset.bgSection); });
+      }, { threshold: 0.18 });
+      secs.forEach((s) => io.observe(s));
+    } else {
+      placed.forEach((p) => p.el.classList.add("is-in"));
+    }
+  }
+
+  // Signature drifting golden "sand" particles on top of everything.
   if (!reduce) initParticles(stage);
 };
 
