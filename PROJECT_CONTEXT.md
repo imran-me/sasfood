@@ -189,9 +189,38 @@ on mobile, and **connect Firebase Firestore** so admin edits are instantly publi
   - Firebase compat SDK (10.12.2) script tags + the two new files added to all 5
     pages after `store.js`. If `apiKey` is blank → fully disabled, site = as before.
   - Setup steps + Firestore security rules in **`FIREBASE_SETUP.md`**.
-  - ⚠️ Client still needs to: create the Firebase project, paste keys into
-    `firebase-config.js`, publish the security rules, add an admin auth user.
   - All JS passes `node --check`.
+
+  **Firebase now LIVE (client completed console setup this session):**
+  - Project **`sasfood-1088f`** (Spark plan), separate from the client's other
+    project `meimran`/OppTracker (shared GitHub Pages host `imran-me.github.io`,
+    but isolated by config keys — that domain is authorized in both projects).
+  - Real keys are in `assets/js/firebase-config.js` (committed; web keys are safe
+    to expose — Firestore rules do the protecting). Firestore created (default db),
+    Email/Password auth on, admin user added, rules published, domain authorized.
+  - Admin login = the Firebase user **epal.imran@gmail.com** (client to ROTATE the
+    password — it was shared in chat/URL during setup). Login page demo-cred hints
+    removed from `admin.html`.
+  - **Desktop image upload added** (`admin.js` `compressImage()` + file input in
+    the product editor): picks a photo, canvas-resizes to ≤1200px JPEG q≤.72,
+    embeds as a `data:` URL kept <800KB (under Firestore's 1MB doc limit), stored
+    inline → shows for everyone, no Storage bucket / Blaze plan needed. URL/Drive
+    link still supported; an uploaded photo wins. `media.js resolveImg` passes
+    `data:` URLs through untouched.
+  - **Catalogue cleared to empty** (`assets/data/products.js` → `window.PRODUCTS=[]`)
+    so the public site no longer shows the 10 placeholder sample cards; **Store
+    seed bumped v3→v4** to drop old samples from existing browsers. Public shows
+    "No products yet" until the client adds real products in Admin.
+  - ⚠️ GOTCHA hit this session: the IDE (file open in VS Code) saved an empty
+    buffer over `assets/js/admin.js` AFTER an Edit, and the emptied file got
+    committed (broke login → native GET submit leaked password into URL). Fixed by
+    `git checkout d9eb41e -- assets/js/admin.js` + re-applying the auth edit. If a
+    just-edited file looks wrong, check the user's open editor isn't clobbering it.
+  - ⏳ Client TODO next: log into admin (hard-refresh first), confirm the "Published
+    to Firebase" toast, add real products with photos; rotate the admin password.
+  - Note (future scale): inline `data:` images live in Firestore docs + localStorage
+    cache; fine for a small catalogue (~20 products). If it grows large, move photos
+    to Firebase Storage (needs Blaze plan) or keep using Google Drive links.
 
 ### 2026-06-30 — DAY RECAP (client task list, all done + pushed to GitHub)
 All work pushed to `https://github.com/imran-me/sasfood.git` (branch `main`,
