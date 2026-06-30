@@ -33,7 +33,7 @@
     countries: "sas_countries",
     // Bump this version to force a re-seed when the seed data / config changes
     // (e.g. real contact details were added from the company letterhead).
-    seeded: "sas_seeded_v3",
+    seeded: "sas_seeded_v4",
   };
 
   // Default category + country seeds (used on first run and "Reset demo data").
