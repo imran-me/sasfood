@@ -96,6 +96,7 @@
   background: linear-gradient(180deg, rgba(17,76,58,.60), rgba(9,44,34,.76));
   border: 2.2px solid rgba(201,162,75,.30);
   border-radius: var(--radius-lg);
+  border-width: 3.5px;
   box-shadow:
     0 24px 50px -24px rgba(0,0,0,.72),     /* deep floating shadow */
     0 6px 18px -12px rgba(0,0,0,.55),
@@ -108,10 +109,10 @@
    gold border. Very low opacity = luxurious, not busy. */
 .card::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: var(--card-pattern, url("../img/patterns/arabesque-gold.svg")) center / 132px repeat;
-  opacity: .11;
-  -webkit-mask-image: radial-gradient(108% 94% at 50% 44%, #000 22%, rgba(0,0,0,.35) 58%, transparent 84%);
-          mask-image: radial-gradient(108% 94% at 50% 44%, #000 22%, rgba(0,0,0,.35) 58%, transparent 84%);
+  background: var(--card-pattern, url("../img/patterns/arabesque-gold.svg")) center / 128px repeat;
+  opacity: .17;
+  -webkit-mask-image: radial-gradient(108% 94% at 50% 44%, #000 24%, rgba(0,0,0,.4) 60%, transparent 84%);
+          mask-image: radial-gradient(108% 94% at 50% 44%, #000 24%, rgba(0,0,0,.4) 60%, transparent 84%);
   filter: blur(.4px);
   transition: opacity .55s var(--ease);
 }
@@ -130,7 +131,7 @@
     0 0 0 1px rgba(201,162,75,.22),
     0 18px 56px -16px rgba(201,162,75,.24);   /* gold ambient glow */
 }
-.card:hover::before { opacity: .17; }
+.card:hover::before { opacity: .24; }
 
 /* Gold filigree corner ornament (decorative). Add .has-filigree to a card. */
 .has-filigree::before, .has-filigree::after {

@@ -56,27 +56,43 @@
     linear-gradient(180deg, rgba(8,41,30,.18) 0%, rgba(12,59,46,.40) 42%, rgba(8,41,30,.86) 100%);
 }
 
-/* Floating golden accents (Burj, camels, panorama) — transparent PNGs placed by
-   background.js per section. Feathered + blurred + low opacity so they read as
-   luminous golden ghosts, never busy. They fade in as their section enters. */
-.bg-stage .bg-accent {
-  position: absolute;
-  opacity: 0;
+/* Per-section golden monument accents (Burj / camel / museum). They live INSIDE
+   their section (so they scroll with the page), peeking from the left or right
+   edge, feathered + blurred + low opacity so they read as luminous golden
+   ghosts. They slide + fade in as the section enters view. Section content sits
+   above them via the .container z-index rule below. */
+.section > .container,
+.section > .container--narrow { position: relative; z-index: 2; }
+
+.side-accent {
+  position: absolute; z-index: 0; pointer-events: none;
   background-position: center; background-repeat: no-repeat; background-size: contain;
-  filter: blur(1.1px) drop-shadow(0 6px 26px rgba(201,162,75,.16));
-  -webkit-mask-image: radial-gradient(72% 72% at 50% 50%, #000 52%, transparent 100%);
-          mask-image: radial-gradient(72% 72% at 50% 50%, #000 52%, transparent 100%);
-  transition: opacity 1.3s var(--ease), transform 1.3s var(--ease);
-  will-change: transform, opacity;
+  filter: blur(.7px) drop-shadow(0 8px 28px rgba(201,162,75,.16));
+  -webkit-mask-image: radial-gradient(76% 76% at 50% 50%, #000 50%, transparent 100%);
+          mask-image: radial-gradient(76% 76% at 50% 50%, #000 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 1.2s var(--ease), transform 1.2s var(--ease);
+  will-change: opacity, transform;
 }
-.bg-stage .bg-accent.is-in { opacity: var(--acc-op, .15); }
+.side-accent.left  { left: 0;  transform: translate(-42%, -50%); }
+.side-accent.right { right: 0; transform: translate(42%, -50%); }
+.side-accent.is-in        { opacity: var(--acc-op, .15); }
+.side-accent.is-in.left   { transform: translate(-30%, -50%); }
+.side-accent.is-in.right  { transform: translate(30%, -50%); }
 
 /* No photo, no problem: a missing CSS background simply paints nothing over the
    green canvas — the site degrades gracefully. */
 
 @media (prefers-reduced-motion: reduce) {
   .bg-stage .bg-scene { animation: none; transform: scale(1.05); }
-  .bg-stage .bg-accent.float, .bg-stage .bg-accent.float--slow { animation: none; }
+  .side-accent { transition: opacity .3s; }
+  .side-accent.is-in.left  { transform: translate(-30%, -50%); }
+  .side-accent.is-in.right { transform: translate(30%, -50%); }
+}
+
+/* On smaller screens the side art crowds the text — keep it subtle / hide. */
+@media (max-width: 760px) {
+  .side-accent { opacity: 0 !important; }
 }
 
 /* Each parallax layer; JS sets data-depth (0.15 / 0.4 / 0.7). */

@@ -87,15 +87,24 @@
        NOTE: serve over HTTP (e.g. `npx serve .`); file:// blocks the includes.
        ====================================================================== -->
 
-  <div data-include="sections/background.html"></div>
+  <!-- Background canvas — INLINED (not fetched) so the vignette + scene paint on
+       first frame, with no delayed pop-in. background.js adds particles/accents. -->
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-glow"></div>
+    <div class="bg-scene"></div>
+    <div class="bg-veil"></div>
+  </div>
+  <div class="bg-grain" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+
   <div data-include="sections/header.html"></div>
 
   <main>
     <div data-include="sections/hero.html"></div>
     <div data-include="sections/trust.html"></div>
+    <div data-include="sections/featured.html"></div>
     <div class="divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M12 2l2.5 5.5L20 6l-1.5 6L20 18l-5.5-1.5L12 22l-2.5-5.5L4 18l1.5-6L4 6l5.5 1.5z"/></svg></div>
     <div data-include="sections/about.html"></div>
-    <div data-include="sections/featured.html"></div>
     <div data-include="sections/products.html"></div>
     <div data-include="sections/capabilities.html"></div>
     <div data-include="sections/markets.html"></div>

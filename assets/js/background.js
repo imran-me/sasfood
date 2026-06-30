@@ -24,46 +24,53 @@ window.initBackground = function initBackground() {
   // floating accents (Burj / camels / panorama) that fade in per section. All are
   // heavily feathered + low-opacity so they enrich without ever competing.
   const DIR = "assets/img/scenes/";
-  const ACCENTS = [
-    { file: "panorama.webp", section: "about",   x: 78, y: 64, w: 62, op: 0.13, float: "slow" },
-    { file: "camels.webp",   section: "products", x: 18, y: 72, w: 44, op: 0.14, float: true },
-    { file: "burj.webp",     section: "markets",  x: 86, y: 52, w: 30, op: 0.16, float: "slow" },
-    { file: "panorama.webp", section: "cta",      x: 50, y: 76, w: 80, op: 0.12, float: "slow" },
-    { file: "camels.webp",   section: "contact",  x: 80, y: 70, w: 40, op: 0.13, float: true },
+  // Golden monument vectors at the LEFT / RIGHT edge of successive sections,
+  // alternating sides — and they SCROLL WITH THE PAGE (each is a child of its
+  // section, not the fixed stage). They peek in from the edge and fade up as the
+  // section enters view: camel first (hero), then Burj, museum, … one by one.
+  const SIDE_ACCENTS = [
+    { section: "hero",         file: "camel.webp",  side: "right", w: 34, y: 66, op: 0.18 },
+    { section: "trust",        file: "burj.webp",   side: "left",  w: 17, y: 52, op: 0.16 },
+    { section: "products",     file: "museum.webp", side: "right", w: 34, y: 38, op: 0.15 },
+    { section: "about",        file: "burj.webp",   side: "left",  w: 19, y: 56, op: 0.16 },
+    { section: "capabilities", file: "camel.webp",  side: "right", w: 30, y: 56, op: 0.15 },
+    { section: "markets",      file: "museum.webp", side: "left",  w: 34, y: 60, op: 0.15 },
+    { section: "cta",          file: "burj.webp",   side: "right", w: 19, y: 55, op: 0.16 },
+    { section: "contact",      file: "camel.webp",  side: "left",  w: 32, y: 60, op: 0.16 },
   ];
 
+  const used = new Set();
   const placed = [];
-  ACCENTS.forEach((a) => {
+  SIDE_ACCENTS.forEach((a) => {
+    let host = null;
+    document.querySelectorAll(`[data-bg-section="${a.section}"]`).forEach((h) => {
+      if (!host && !used.has(h)) host = h;
+    });
+    if (!host) return;
+    used.add(host);
     const el = document.createElement("div");
-    el.className = "bg-accent" + (a.float === true ? " float" : a.float === "slow" ? " float float--slow" : "");
+    el.className = `side-accent ${a.side}`;
     el.setAttribute("aria-hidden", "true");
-    el.dataset.section = a.section;
     Object.assign(el.style, {
-      left: a.x + "%",
-      top: a.y + "%",
       width: a.w + "vmin",
-      height: a.w * 0.7 + "vmin",
-      transform: "translate(-50%, -50%)",
+      height: (a.w * 0.82) + "vmin",
+      top: a.y + "%",
       backgroundImage: `url(${DIR}${a.file})`,
     });
     el.style.setProperty("--acc-op", a.op);
-    stage.appendChild(el);
-    placed.push({ el, section: a.section });
+    host.appendChild(el);
+    placed.push(el);
   });
 
-  const showFor = (s) => placed.forEach((p) => { if (p.section === s) p.el.classList.add("is-in"); });
   if (reduce) {
-    placed.forEach((p) => p.el.classList.add("is-in"));
+    placed.forEach((el) => el.classList.add("is-in"));
+  } else if ("IntersectionObserver" in window && placed.length) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("is-in"); });
+    }, { threshold: 0.12 });
+    placed.forEach((el) => io.observe(el));
   } else {
-    const secs = document.querySelectorAll("[data-bg-section]");
-    if ("IntersectionObserver" in window && secs.length) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) showFor(e.target.dataset.bgSection); });
-      }, { threshold: 0.18 });
-      secs.forEach((s) => io.observe(s));
-    } else {
-      placed.forEach((p) => p.el.classList.add("is-in"));
-    }
+    placed.forEach((el) => el.classList.add("is-in"));
   }
 
   // Signature drifting golden "sand" particles on top of everything.

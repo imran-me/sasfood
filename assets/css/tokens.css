@@ -69,7 +69,7 @@
   --space-7: 3rem;
   --space-8: 4rem;
   --space-9: 6rem;
-  --section-pad: clamp(2.5rem, 6vw, 5rem);  /* vertical padding per section (tightened) */
+  --section-pad: clamp(1.9rem, 4.5vw, 3.8rem);  /* vertical padding per section (tighter) */
 
   /* ---- Layout --------------------------------------------------------- */
   --container:   1240px;

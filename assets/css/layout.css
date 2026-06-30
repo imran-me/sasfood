@@ -66,7 +66,7 @@
   align-items: center;
   gap: var(--space-4);
   width: min(640px, 80%);
-  margin: var(--space-8) auto;
+  margin: var(--space-5) auto;
   color: var(--gold-500);
   opacity: .7;
 }
