@@ -92,10 +92,10 @@
 .card {
   position: relative;
   background:
-    url("../img/patterns/arabesque-gold.svg") center / 150px repeat,
+    url("../img/patterns/arabesque-gold.svg") center / 92px repeat,
     linear-gradient(180deg, rgba(17,76,58,.55), rgba(12,59,46,.65));
-  background-blend-mode: soft-light, normal;
-  border: 1.25px solid var(--line);   /* +25% over the 1px base hairline */
+  background-blend-mode: normal, normal;   /* pattern shown at its own ~80% alpha */
+  border: 2.2px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   /* NOTE: backdrop-filter removed on cards — it forced an expensive re-blur of

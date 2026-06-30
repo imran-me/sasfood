@@ -134,23 +134,14 @@ function renderCerts() {
   host.innerHTML = certs.map((c) => `<span class="chip">✓ ${c.label}</span>`).join("");
 }
 
-/* ---- Smooth scroll: Lenis if present, else native ------------------- */
+/* ---- Smooth scroll: native only ------------------------------------
+   We deliberately do NOT use a JS smooth-scroll library (e.g. Lenis): it
+   hijacks the mouse wheel (preventDefault) which made desktop scrolling feel
+   stuck / unresponsive. Native scrolling + `html { scroll-behavior: smooth }`
+   (base.css) is reliable on every device and respects reduced-motion. */
 function initSmoothScroll() {
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (!reduce && window.Lenis) {
-    // lerp-based smoothing feels more responsive (less "stuck") than a long
-    // duration on desktop wheels. Touch keeps the OS-native momentum.
-    const lenis = new window.Lenis({
-      lerp: 0.1,
-      wheelMultiplier: 1,
-      smoothWheel: true,
-      syncTouch: false,
-    });
-    function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-    requestAnimationFrame(raf);
-    window.__lenis = lenis;
-  }
-  // In-page anchor smoothing (works with or without Lenis).
+  // In-page anchor smoothing (header is ~80px tall, so offset the target).
   document.addEventListener("click", (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -158,7 +149,7 @@ function initSmoothScroll() {
     const target = id && document.getElementById(id);
     if (!target) return;
     e.preventDefault();
-    if (window.__lenis) window.__lenis.scrollTo(target, { offset: -80 });
-    else target.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+    const y = target.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: y, behavior: reduce ? "auto" : "smooth" });
   });
 }
