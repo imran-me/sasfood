@@ -160,6 +160,34 @@ sas/
 
 ## 9. Session Log (append newest at top — update at end of each day)
 
+### 2026-06-30 — DAY RECAP (client task list, all done + pushed to GitHub)
+All work pushed to `https://github.com/imran-me/sasfood.git` (branch `main`,
+HEAD `68704a8`). Tasks the client asked for today, in order, and their status:
+
+1. ✅ **Admin product upload functional for GitHub hosting** — CRUD works; added
+   **"⤓ Export catalogue"** (downloads `assets/data/products.js` to commit) +
+   JSON backup. **Google Drive photo links** supported (`media.js`).
+2. ✅ **Admin content management** — new sidebar group: **Categories, Countries
+   (lat/lng + flag/emblem), Branding/Emblem**.
+3. ✅ **Real golden world map** (markets) — equirectangular; admin countries plot
+   geographically with animated trade-route lines from the Dubai hub.
+4. ✅ **Featured Products** rotating deck (5-col desktop / 3-col mobile, View-all);
+   moved to **right after the numbers strip**.
+5. ✅ **Cards** — golden arabesque + alternate khatam motif, faint & edge-feathered
+   (border stays crisp), **3.5px borders**, **floating** shadow + **gold hover**.
+6. ✅ **Spacing reduced** (section padding, gaps, compacted trust strip ~50%).
+7. ✅ **Desktop mouse-wheel scroll fixed** — removed Lenis (it hijacked the wheel);
+   native scroll now. **Mobile fixed inline menu** (Home/Products/About).
+8. ✅ **Background redone** — crude SVG silhouettes replaced by the **golden Dubai
+   photo** (hero) + **per-section golden monuments** (camel/Burj/museum) that
+   **scroll** and alternate sides. Client's transparent PNGs optimised to webp.
+9. ✅ **Background pop-in fixed** — bg canvas inlined (was a late-loading partial).
+- See Sessions 5 & 6 below for detail. Tuning knobs noted in Session 6.
+- ⏳ Open: client to optionally add their own hero photo (a default ships); higher-
+  fidelity world-map continents if wanted; Firebase (Phase 8) to drop the
+  export-and-commit step.
+
+
 ### 2026-06-30 — Session 6 (photo background, golden monuments, card polish, layout)
 - **Background art:** removed the crude SVG monument silhouettes. Hero now uses a
   transparent golden **Dubai scene** (`assets/img/bg/dubai-scene.webp`), feathered
