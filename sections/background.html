@@ -1,13 +1,22 @@
 <!-- ===========================================================================
      sections/background.html — Signature animated background stage
      ---------------------------------------------------------------------------
-     The fixed monument stage + grain + vignette layers. background.js fills the
-     .bg-stage with masked SVG silhouettes, parallax layers and the particle
-     canvas. Keep this FIRST in the page body so it sits behind everything.
+     A fixed, full-viewport canvas behind ALL content:
+       .bg-glow   — deep-green base wash (and the graceful fallback if the photo
+                    is missing)
+       .bg-scene  — the golden Dubai hero photograph, feathered into the green
+       .bg-veil   — green tint + readability scrim over the photo
+       particles  — drifting golden "sand" canvas (background.js)
+     Keep this FIRST in the page body so it sits behind everything.
+
+     >>> Drop the golden Dubai image at  assets/img/bg/dubai-gold.jpg
+         (any close crop works; it's masked + tinted to blend automatically).
      ======================================================================== -->
 <div class="bg-stage" aria-hidden="true">
   <div class="bg-glow"></div>
-  <!-- parallax layers + monuments injected by background.js -->
+  <div class="bg-scene"></div>
+  <div class="bg-veil"></div>
+  <!-- particle canvas injected by background.js -->
 </div>
 <div class="bg-grain" aria-hidden="true"></div>
 <div class="bg-vignette" aria-hidden="true"></div>

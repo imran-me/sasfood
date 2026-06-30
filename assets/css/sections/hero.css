@@ -13,7 +13,17 @@
   padding-top: clamp(6rem, 14vh, 9rem);
   padding-bottom: clamp(4rem, 8vh, 6rem);
 }
-.hero .container { width: 100%; }
+/* Readability scrim: a soft deep-green wash pooling at the lower-left where the
+   headline + CTAs sit, so cream/gold type stays crisp over the golden photo
+   without hiding the scene. */
+.hero::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(80% 75% at 22% 78%, rgba(8,41,30,.62), rgba(8,41,30,.22) 55%, transparent 78%),
+    linear-gradient(180deg, transparent 40%, rgba(8,41,30,.45) 100%);
+}
+.hero .container { width: 100%; position: relative; }
 
 .hero .eyebrow { margin-bottom: var(--space-4); }
 .hero h1 { max-width: 18ch; margin-bottom: var(--space-5); }

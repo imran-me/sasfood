@@ -16,13 +16,50 @@
   pointer-events: none;
 }
 
-/* Radial mood lighting on the deep-green canvas. */
+/* Radial mood lighting on the deep-green canvas (also the fallback if the photo
+   is absent). */
 .bg-stage .bg-glow {
   position: absolute; inset: -10%;
   background:
     radial-gradient(60% 50% at 75% 18%, rgba(201,162,75,.10), transparent 60%),
     radial-gradient(50% 45% at 18% 80%, rgba(30,122,87,.18), transparent 60%),
     linear-gradient(180deg, var(--green-900), var(--green-800) 45%, var(--green-900));
+}
+
+/* The golden Dubai photograph — feathered into the canvas (no hard photo edge),
+   anchored toward the top so the skyline sits behind the hero, then dissolving
+   into deep green further down. A slow Ken-Burns drift keeps it alive. */
+.bg-stage .bg-scene {
+  position: absolute; inset: 0;
+  background: url("../img/bg/dubai-gold.jpg") center 22% / cover no-repeat;
+  opacity: .62;
+  filter: saturate(1.06) contrast(1.02);
+  /* Radial feather: fully visible around the upper-centre, melting to nothing
+     at the edges so the rectangular photo never shows a seam. */
+  -webkit-mask-image: radial-gradient(118% 92% at 50% 30%, #000 42%, rgba(0,0,0,.45) 68%, transparent 100%);
+  mask-image: radial-gradient(118% 92% at 50% 30%, #000 42%, rgba(0,0,0,.45) 68%, transparent 100%);
+  animation: scene-drift 38s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes scene-drift {
+  from { transform: scale(1.04) translateY(0); }
+  to   { transform: scale(1.12) translateY(-1.4%); }
+}
+
+/* Green veil + bottom scrim: brand cohesion + keeps cream/gold text legible.
+   Lighter over the upper third (let the gold glow), deep green toward the base. */
+.bg-stage .bg-veil {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(95% 65% at 50% 20%, rgba(8,41,30,.05), rgba(8,41,30,.42) 60%, rgba(8,41,30,.72) 100%),
+    linear-gradient(180deg, rgba(8,41,30,.18) 0%, rgba(12,59,46,.40) 42%, rgba(8,41,30,.86) 100%);
+}
+
+/* No photo, no problem: hide the empty mask box if the image fails to load is
+   automatic (a missing CSS background simply paints nothing over the green). */
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-stage .bg-scene { animation: none; transform: scale(1.05); }
 }
 
 /* Each parallax layer; JS sets data-depth (0.15 / 0.4 / 0.7). */
