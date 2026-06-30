@@ -160,6 +160,33 @@ sas/
 
 ## 9. Session Log (append newest at top — update at end of each day)
 
+### 2026-06-30 — Session 6 (photo background, golden monuments, card polish, layout)
+- **Background art:** removed the crude SVG monument silhouettes. Hero now uses a
+  transparent golden **Dubai scene** (`assets/img/bg/dubai-scene.webp`), feathered
+  + green-veiled + slow Ken-Burns. Client-supplied transparent PNGs (in
+  `assets/vector/`) were optimised to webp in `assets/img/scenes/` (`camel`,
+  `burj`, `museum` — museum & camel had baked white/checker backgrounds, keyed out
+  with PIL by saturation). These are placed as **per-section SIDE monuments** that
+  **scroll with the page**, alternate left/right, fade+slide in per section
+  (`background.js` SIDE_ACCENTS → `.side-accent`), hidden < 760px.
+- **Pop-in fix:** the background canvas (`.bg-stage/.bg-scene/.bg-veil/.bg-grain/
+  .bg-vignette`) is now **inlined into each page** instead of fetched via
+  `sections/background.html` — so the edge vignette/scene paint on the first frame
+  (the fetched partial used to pop in a moment late). `sections/background.html`
+  is now unused (kept for reference).
+- **Cards:** two motifs alternate (`arabesque-gold.svg` / new `geo-gold.svg` khatam
+  star) via `.motif-b` + `nth-child`. Pattern is faint (`.card::before` opacity
+  ~.17) and **radially feathered so it never touches the border**. Borders **3.5px**.
+  Cards **float** (layered shadow) with a gold-glow **hover lift**. Corner filigree
+  dropped on cards.
+- **Layout:** home order is now hero → **trust (numbers+certs, compacted ~50%, one
+  row)** → **Featured (View all)** → divider → Our Story (about) → products → … .
+  Section padding + divider gap tightened again (`--section-pad`).
+- Smooth-scroll: still native (Lenis removed in session 5b) — wheel works.
+- Knobs: card pattern `.card::before {opacity}`; side-art strength = `op:` in
+  `background.js` SIDE_ACCENTS; hero photo = `.bg-scene {opacity}`.
+
+
 ### 2026-06-30 — Session 5 (admin content mgmt, featured deck, golden world map, vectors, scroll/menu)
 
 **Client prompt (verbatim, for the record):**
