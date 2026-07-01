@@ -32,14 +32,14 @@
    scene still reads behind them. Hidden on smaller screens. */
 .hero-deck {
   position: absolute; z-index: 1; pointer-events: none;
-  right: clamp(1.5rem, 6vw, 6.5rem);
-  top: 50%; transform: translateY(-34%);
-  width: clamp(230px, 26vw, 360px);
-  height: clamp(250px, 30vw, 400px);
+  right: clamp(2rem, 9vw, 9rem);
+  top: 70%; transform: translateY(-30%);
+  width: clamp(150px, 18vw, 250px);
+  height: clamp(160px, 20vw, 260px);
 }
 .hd-card {
   position: absolute; top: 0;
-  width: clamp(140px, 15vw, 205px); aspect-ratio: 3 / 4;
+  width: clamp(96px, 10.5vw, 138px); aspect-ratio: 3 / 4;
   border-radius: 16px; overflow: hidden;
   border: 1.5px solid rgba(201, 162, 75, .55);
   box-shadow: 0 26px 64px -22px rgba(0, 0, 0, .62), 0 0 0 1px rgba(201, 162, 75, .14) inset;
