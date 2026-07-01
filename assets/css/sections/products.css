@@ -4,6 +4,15 @@
    Cards are rendered by assets/js/products.js from assets/data/products.js.
    ========================================================================== */
 
+/* ---- Showcase heading (client request) ------------------------------
+   Title on two lines, the lead wider so it reads on ~one line, and the whole
+   head tightened ~30% so the product grid sits higher. Scoped to #products so
+   other sections' headings are untouched. */
+#products .section-head { max-width: 80ch; margin-bottom: calc(var(--space-5) * .7); }
+#products .section-head .eyebrow { margin-bottom: calc(var(--space-3) * .7); }
+#products .section-head h2 { margin-bottom: calc(var(--space-4) * .7); }
+#products .section-head .lead { max-width: 78ch; margin-inline: auto; }
+
 /* ---- Filter pills row ----------------------------------------------- */
 .filter-bar { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: var(--space-5); }
 
