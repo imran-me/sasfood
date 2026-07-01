@@ -20,7 +20,14 @@
   // the renderers below show every visitor the newest admin edits.
   if (window.Store) window.Store.ready();
   if (window.SASCloud && window.SASCloud.enabled) {
-    try { await window.SASCloud.pull(); } catch (e) { console.error("[cloud] pull failed", e); }
+    // Never let a slow/unreachable Firestore block the whole page: race the pull
+    // against a short timeout and fall back to the local cache if it's not done.
+    try {
+      await Promise.race([
+        window.SASCloud.pull(),
+        new Promise((resolve) => setTimeout(resolve, 4000)),
+      ]);
+    } catch (e) { console.error("[cloud] pull failed", e); }
   }
 
   // Apply any admin Settings overrides onto SITE_CONFIG (mutate in place so the
@@ -34,6 +41,7 @@
   }
 
   applyEmblem();
+  applyContent();
 
   populateConfig();
   renderMarketChips();
@@ -47,7 +55,7 @@
   [
     "initPreloader", "initNav", "initCursor", "initReveal",
     "initCounters", "initBackground", "initProducts", "initFeatured",
-    "initMarketsMap", "initContact",
+    "initHeroDeck", "initMarketsMap", "initContact",
   ].forEach((fn) => { try { window[fn] && window[fn](); } catch (e) { console.error(fn, e); } });
 
   initSmoothScroll();
@@ -73,12 +81,16 @@ function populateConfig() {
     if (key === "whatsapp") href = window.CTA.whatsappUrl({});
     else if (key === "email") href = window.CTA.mailtoUrl({});
     else if (key === "phone") href = `tel:${(c.phone || "").replace(/\s+/g, "")}`;
-    else if (key === "phone2") href = `tel:${(c.phone2 || "").replace(/\s+/g, "")}`;
     else if (key === "map") href = c.mapUrl || "#";
     else if (key === "instagram") href = c.socials?.instagram || "#";
+    else if (key === "facebook") href = c.socials?.facebook || "#";
     else if (key === "linkedin") href = c.socials?.linkedin || "#";
     el.setAttribute("href", href);
-    if (key === "whatsapp" || key === "map" || key.match(/instagram|linkedin/)) {
+    // Hide social links that are still unset ({PLACEHOLDER} or empty).
+    if (key.match(/instagram|facebook|linkedin/) && (href === "#" || /^\{.*\}$/.test(href))) {
+      el.style.display = "none";
+    }
+    if (key === "whatsapp" || key === "map" || key.match(/instagram|facebook|linkedin/)) {
       el.target = "_blank"; el.rel = "noopener";
     }
   });
@@ -86,6 +98,24 @@ function populateConfig() {
   // Current year wherever needed.
   document.querySelectorAll("[data-year]").forEach((el) => {
     el.textContent = new Date().getFullYear();
+  });
+}
+
+/* ---- Editable section content (admin "Content" tab) -----------------
+   Any element with data-content="key" has its text replaced by the matching
+   admin-saved value; data-content-src="key" swaps an <img> source. If a value
+   is blank/unset the committed default in the HTML is kept, so the site always
+   reads well even before the client edits anything. */
+function applyContent() {
+  const s = (window.Store && window.Store.getSettings && window.Store.getSettings()) || {};
+  const content = s.content || {};
+  document.querySelectorAll("[data-content]").forEach((el) => {
+    const v = content[el.getAttribute("data-content")];
+    if (v != null && String(v).trim() !== "") el.textContent = v;
+  });
+  document.querySelectorAll("[data-content-src]").forEach((el) => {
+    const v = content[el.getAttribute("data-content-src")];
+    if (v && String(v).trim() !== "") el.src = window.MEDIA ? window.MEDIA.resolveImg(v) : v;
   });
 }
 
@@ -111,13 +141,55 @@ function renderMarketChips() {
       .map((c) => ({ name: c.name.replace(/\s*\(.*\)$/, ""), flag: c.flag || "" }));
   }
   if (!markets.length) markets = (window.SITE_CONFIG || {}).markets || [];
+
+  const LIMIT = 10;   // show at most 10 publicly; the rest live behind "See all"
+  const chip = (m, dots) => dots
+    ? `<li><span class="flag">${m.flag}</span> ${m.name}</li>`
+    : `<span class="chip"><span class="flag">${m.flag}</span> ${m.name}</span>`;
+
   document.querySelectorAll("[data-markets]").forEach((host) => {
     const asDots = host.hasAttribute("data-markets-dots");
-    host.insertAdjacentHTML("beforeend", markets.map((m) =>
-      asDots
-        ? `<li><span class="flag">${m.flag}</span> ${m.name}</li>`
-        : `<span class="chip"><span class="flag">${m.flag}</span> ${m.name}</span>`
-    ).join(""));
+    let html = markets.slice(0, LIMIT).map((m) => chip(m, asDots)).join("");
+    if (markets.length > LIMIT) {
+      html += asDots
+        ? `<li><button type="button" class="see-all-markets">See all ${markets.length} &rarr;</button></li>`
+        : `<button type="button" class="see-all-markets chip chip--more">See all ${markets.length} &rarr;</button>`;
+    }
+    host.insertAdjacentHTML("beforeend", html);
+  });
+
+  document.querySelectorAll(".see-all-markets").forEach((b) =>
+    b.addEventListener("click", () => openMarketsModal(markets)));
+}
+
+/* A simple luxe modal listing every operating country (opened by "See all"). */
+function openMarketsModal(markets) {
+  let modal = document.querySelector(".markets-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.className = "markets-modal";
+    modal.setAttribute("role", "dialog");
+    modal.setAttribute("aria-modal", "true");
+    document.body.appendChild(modal);
+  }
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  modal.innerHTML = `
+    <div class="mm-panel" role="document">
+      <button class="mm-close" aria-label="Close">&times;</button>
+      <p class="eyebrow">Where We Operate</p>
+      <h3>${markets.length} Markets &amp; Growing</h3>
+      <ul class="mm-list" role="list">
+        ${markets.map((m) => `<li><span class="flag">${m.flag}</span> ${esc(m.name)}</li>`).join("")}
+      </ul>
+    </div>`;
+  requestAnimationFrame(() => modal.classList.add("is-open"));
+  document.body.style.overflow = "hidden";
+  const close = () => { modal.classList.remove("is-open"); document.body.style.overflow = ""; };
+  modal.querySelector(".mm-close").addEventListener("click", close);
+  modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
+  document.addEventListener("keydown", function esc2(ev) {
+    if (ev.key === "Escape") { close(); document.removeEventListener("keydown", esc2); }
   });
 }
 
@@ -126,11 +198,21 @@ function renderStats() {
   const stats = (window.SITE_CONFIG || {}).stats || [];
   const host = document.querySelector("[data-stats]");
   if (!host) return;
-  host.innerHTML = stats.map((s) => `
+  // The "Markets" counter is LIVE: it counts the active operating countries the
+  // client manages in Admin, so adding a country bumps this number automatically.
+  let marketCount = 0;
+  if (window.Store && window.Store.getCountries) {
+    marketCount = window.Store.getCountries().filter((c) => c.active !== false).length;
+  }
+  host.innerHTML = stats.map((s) => {
+    const isMarkets = /market/i.test(s.label);
+    const value = (isMarkets && marketCount) ? marketCount : s.value;
+    return `
     <div class="stat" data-reveal>
-      <div class="num"><span data-count="${s.value}" data-suffix="${s.suffix || ""}">0</span></div>
+      <div class="num"><span data-count="${value}" data-suffix="${s.suffix || ""}">0</span></div>
       <div class="label">${s.label}</div>
-    </div>`).join("");
+    </div>`;
+  }).join("");
 }
 
 /* ---- Certification chips -------------------------------------------- */

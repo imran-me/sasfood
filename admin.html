@@ -84,6 +84,10 @@
 
       <!-- ===== Content management group ===== -->
       <p class="admin-nav-group">Content</p>
+      <button class="admin-nav-btn" data-tab="pagecontent">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16v16H4z"/><path d="M4 9h16M9 9v11"/></svg>
+        Page Content
+      </button>
       <button class="admin-nav-btn" data-tab="categories">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         Categories
@@ -204,11 +208,57 @@
             <div class="field"><label for="s-map">Google Maps URL</label><input id="s-map" name="mapUrl" type="text" placeholder="https://maps.google.com/..."></div>
             <div class="field--row">
               <div class="field"><label for="s-ig">Instagram URL</label><input id="s-ig" name="instagram" type="text" placeholder="https://instagram.com/..."></div>
+              <div class="field"><label for="s-fb">Facebook URL</label><input id="s-fb" name="facebook" type="text" placeholder="https://facebook.com/..."></div>
+            </div>
+            <div class="field--row">
               <div class="field"><label for="s-li">LinkedIn URL</label><input id="s-li" name="linkedin" type="text" placeholder="https://linkedin.com/company/..."></div>
+              <div class="field"></div>
             </div>
             <div class="submit-row">
               <button class="btn btn--gold" type="submit">Save Settings</button>
               <span class="form-note">Tip: also update <code>assets/js/config.js</code> so fresh visitors get these before the Store seeds.</span>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ===== Page Content (Hero + Story text & images) ===== -->
+      <section class="admin-panel" data-panel="pagecontent">
+        <div class="admin-topbar"><h1>Page Content</h1></div>
+        <div class="card" style="padding:1.5rem">
+          <p style="color:var(--text-muted-on-dark);margin-bottom:1.25rem">
+            Edit the wording and photo of the non-product sections. Leave a field
+            blank to keep the built-in default. Saved changes go live for every
+            visitor (no redeploy needed).
+          </p>
+          <form id="content-form" class="inquiry-form" style="max-width:720px">
+            <h3 style="color:var(--cream-100);margin:.25rem 0 .75rem">Hero (first screen)</h3>
+            <div class="field"><label for="c-hero-eyebrow">Eyebrow</label><input id="c-hero-eyebrow" name="heroEyebrow" placeholder="EST. · DUBAI · GLOBAL TRADE"></div>
+            <div class="field--row">
+              <div class="field"><label for="c-hero-title">Headline (white part)</label><input id="c-hero-title" name="heroTitle" placeholder="Premium Foodstuff, "></div>
+              <div class="field"><label for="c-hero-title-gold">Headline (gold part)</label><input id="c-hero-title-gold" name="heroTitleGold" placeholder="Traded Across Borders."></div>
+            </div>
+            <div class="field"><label for="c-hero-lead">Intro paragraph</label><textarea id="c-hero-lead" name="heroLead" placeholder="Sara Alsalam Foodstuff Trading LLC supplies…"></textarea></div>
+
+            <h3 style="color:var(--cream-100);margin:1.25rem 0 .75rem">Our Story (About section)</h3>
+            <div class="field--row">
+              <div class="field"><label for="c-about-eyebrow">Eyebrow</label><input id="c-about-eyebrow" name="aboutEyebrow" placeholder="Our Story"></div>
+              <div class="field"><label for="c-about-title">Heading</label><input id="c-about-title" name="aboutTitle" placeholder="Rooted in Trust. Trading Across Borders."></div>
+            </div>
+            <div class="field"><label for="c-about-lead">Paragraph</label><textarea id="c-about-lead" name="aboutLead" placeholder="Built on relationships across six markets…"></textarea></div>
+            <div class="field"><label for="c-about-quote">Pull quote</label><input id="c-about-quote" name="aboutQuote" placeholder="“From trusted origins to global tables…”"></div>
+            <div class="field">
+              <label>Story image — upload from your computer</label>
+              <input name="aboutImageFile" type="file" accept="image/*">
+              <input name="aboutImage" type="hidden">
+              <div id="c-about-thumb" style="margin:.55rem 0"></div>
+              <span class="form-note">Pick a photo (auto-resized) or paste a link below.</span>
+            </div>
+            <div class="field"><label for="c-about-image-url">…or story image URL / Google Drive link</label><input id="c-about-image-url" name="aboutImageUrl" placeholder="https://…  or a Drive share link"></div>
+
+            <div class="submit-row">
+              <button class="btn btn--gold" type="submit">Save Content</button>
+              <span class="form-note">Applies to the public home page instantly.</span>
             </div>
           </form>
         </div>

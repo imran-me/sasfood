@@ -52,10 +52,12 @@ window.initProducts = function initProducts() {
 
   const cardHTML = (p, i) => {
     const img = (p.images && p.images[0]) || { url: "", alt: p.name };
-    const origins = (p.origins || []).slice(0, 2)
+    // Show ALL origins + packaging on the card (they wrap) — no hidden values.
+    const origins = (p.origins || [])
       .map((o) => `<span class="chip">${esc(o)}</span>`).join("");
-    const packs = (p.packaging || []).slice(0, 2)
-      .map((pk) => `<span class="chip">${esc(pk)}</span>`).join("");
+    const packs = (p.packaging || [])
+      .map((pk) => `<span class="chip chip--pack">${esc(pk)}</span>`).join("");
+    const hs = p.hsCode ? `<p class="hs-line">HS Code: <b>${esc(p.hsCode)}</b></p>` : "";
     return `
     <article class="card product-card ${i % 2 ? "motif-b" : ""}" data-cat="${esc(p.category)}" data-slug="${esc(p.slug)}" data-reveal>
       <div class="media">
@@ -66,6 +68,7 @@ window.initProducts = function initProducts() {
         <h3 class="name">${esc(p.name)}</h3>
         <p class="desc">${esc(p.shortDesc)}</p>
         <div class="meta">${origins}${packs}</div>
+        ${hs}
         <div class="card-actions">
           <a class="btn btn--whatsapp btn--sm" data-cta="whatsapp"
              data-product="${esc(p.name)}" data-packaging="${esc((p.packaging || [])[0] || "bulk")}">Inquire</a>
@@ -127,6 +130,7 @@ window.initProducts = function initProducts() {
             ${p.origins?.length ? `<div><strong>Origins</strong><div class="meta" style="margin-top:.4rem">${list(p.origins)}</div></div>` : ""}
             ${p.packaging?.length ? `<div><strong>Packaging</strong><div class="meta" style="margin-top:.4rem">${list(p.packaging)}</div></div>` : ""}
             ${p.moq ? `<p><strong>MOQ:</strong> ${esc(p.moq)}</p>` : ""}
+            ${p.hsCode ? `<p><strong>HS Code:</strong> ${esc(p.hsCode)}</p>` : ""}
             ${specRows ? `<dl class="spec-list">${specRows}</dl>` : ""}
             <div class="modal-actions">
               <a class="btn btn--whatsapp" data-cta="whatsapp" data-product="${esc(p.name)}"
@@ -149,11 +153,24 @@ window.initProducts = function initProducts() {
     });
   }
 
-  /* ---- Deep-link: ?category=Rice or #products-Rice ------------------- */
-  const params = new URLSearchParams(location.search);
-  const cat = params.get("category");
-  if (cat && CATS.includes(cat)) {
-    const btn = bar?.querySelector(`[data-filter="${cat}"]`);
+  /* ---- Category deep-link ---------------------------------------------
+     Any in-page link like <a href="#products" data-cat="Rice"> (footer,
+     featured deck) scrolls to the catalogue (main.js) then pre-selects that
+     category filter here. */
+  const selectCat = (cat) => {
+    if (!cat) return;
+    const btn = bar?.querySelector(`[data-filter="${CSS.escape(cat)}"]`);
     btn && btn.click();
-  }
+  };
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[data-cat][href="#products"], .featured-card[data-cat]');
+    if (!link) return;
+    const cat = link.getAttribute("data-cat");
+    setTimeout(() => selectCat(cat), 650);   // wait for the smooth scroll
+  });
+
+  // Legacy ?category=Rice query param (from old bookmarks) still works.
+  const params = new URLSearchParams(location.search);
+  const qCat = params.get("category");
+  if (qCat && CATS.includes(qCat)) selectCat(qCat);
 };

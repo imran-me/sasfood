@@ -48,12 +48,34 @@ window.initNav = function initNav() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   );
 
-  /* ---- Active link by current path ----------------------------------- */
-  const path = location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav a, .mobile-menu nav a").forEach((a) => {
-    const href = a.getAttribute("href") || "";
-    if (href.endsWith(path) || (path === "index.html" && href === "index.html")) {
-      a.setAttribute("aria-current", "page");
-    }
-  });
+  /* ---- Single-page menu -----------------------------------------------
+     The nav links are in-page anchors (#home / #products / #about / #contact)
+     so the menu just scrolls to that section. On any page OTHER than the home
+     page (e.g. a direct hit on a legacy URL), rewrite them to index.html#…
+     so they still land on the right section. */
+  const onHome = /(^|\/)(index\.html)?$/.test(location.pathname);
+  const navLinks = [...document.querySelectorAll(".nav a, .mobile-menu nav a")];
+  if (!onHome) {
+    navLinks.forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      if (href.startsWith("#")) a.setAttribute("href", "index.html" + href);
+    });
+  }
+
+  /* ---- Scroll-spy: highlight the section currently in view ------------ */
+  const spy = navLinks.filter((a) => (a.getAttribute("href") || "").startsWith("#"));
+  if (onHome && spy.length && "IntersectionObserver" in window) {
+    const setCurrent = (id) => spy.forEach((a) => {
+      const on = a.getAttribute("href") === "#" + id;
+      a.toggleAttribute("aria-current", on);
+      if (on) a.setAttribute("aria-current", "page");
+    });
+    const sections = spy
+      .map((a) => document.getElementById(a.getAttribute("href").slice(1)))
+      .filter(Boolean);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setCurrent(e.target.id); });
+    }, { rootMargin: "-45% 0px -50% 0px", threshold: 0 });
+    sections.forEach((s) => io.observe(s));
+  }
 };

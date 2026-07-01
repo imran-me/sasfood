@@ -6,9 +6,9 @@
      ======================================================================== -->
 <section class="hero section" id="home" data-bg-section="hero">
   <div class="container">
-    <p class="eyebrow" data-reveal>EST. · DUBAI · GLOBAL TRADE</p>
-    <h1 data-reveal>Premium Foodstuff, <span class="text-gold">Traded Across Borders.</span></h1>
-    <p class="lead italic" data-reveal>
+    <p class="eyebrow" data-reveal data-content="heroEyebrow">EST. · DUBAI · GLOBAL TRADE</p>
+    <h1 data-reveal><span data-content="heroTitle">Premium Foodstuff, </span><span class="text-gold" data-content="heroTitleGold">Traded Across Borders.</span></h1>
+    <p class="lead italic" data-reveal data-content="heroLead">
       Sara Alsalam Foodstuff Trading LLC supplies rice, edible oils, sugar, spices and
       fresh produce in bulk to wholesale markets across the Gulf, South Asia and Africa.
     </p>
@@ -23,6 +23,14 @@
       <span class="label">Trading in</span>
       <span data-markets></span>
     </div>
+  </div>
+
+  <!-- Two tilted "product plate" cards (desktop): quietly cross-fade through the
+       catalogue's photos. Injected + animated by assets/js/hero-deck.js. They sit
+       in the open right-hand space and never block the background scene. -->
+  <div class="hero-deck" data-hero-deck aria-hidden="true">
+    <div class="hd-card hd-card--a"></div>
+    <div class="hd-card hd-card--b"></div>
   </div>
 
   <!-- Scroll cue -->

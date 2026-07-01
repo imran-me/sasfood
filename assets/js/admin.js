@@ -137,6 +137,7 @@
     renderCategories();
     renderCountries();
     loadBranding();
+    loadContent();
   }
 
   /* ================= TABS ============================================== */
@@ -291,9 +292,10 @@
             <div class="field"><label>Grades / varieties (comma)</label><input name="grades" value="${esc(joinList(p?.grades))}"></div>
           </div>
           <div class="field--row">
-            <div class="field"><label>Packaging (comma)</label><input name="packaging" value="${esc(joinList(p?.packaging))}"></div>
+            <div class="field"><label>Packaging sizes (comma)</label><input name="packaging" value="${esc(joinList(p?.packaging))}" placeholder="e.g. 5kg, 25kg bag, 1L bottle"></div>
             <div class="field"><label>MOQ</label><input name="moq" value="${esc(p?.moq || "")}"></div>
           </div>
+          <div class="field"><label>HS Code</label><input name="hsCode" value="${esc(p?.hsCode || "")}" placeholder="e.g. 1006.30 — shown on the public card"></div>
           <div class="field">
             <label>Product image — upload from your computer</label>
             <input name="imgFile" type="file" accept="image/*">
@@ -382,6 +384,7 @@
       grades: parseList(f("grades").value),
       packaging: parseList(f("packaging").value),
       moq: f("moq").value.trim(),
+      hsCode: f("hsCode").value.trim(),
       images: [
         // An uploaded photo (data URL) takes priority over a typed URL/Drive link.
         { url: (f("imgData") && f("imgData").value) || f("imgUrl").value.trim(), alt: f("imgAlt").value.trim() },
@@ -396,8 +399,9 @@
   // A product card mirroring the public showcase look.
   function previewCard(p) {
     const img = (p.images && p.images[0]) || { url: "", alt: p.name };
-    const chips = [...(p.origins || []).slice(0, 2), ...(p.packaging || []).slice(0, 1)]
+    const chips = [...(p.origins || []), ...(p.packaging || [])]
       .map((x) => `<span class="chip">${esc(x)}</span>`).join("");
+    const hs = p.hsCode ? `<p class="hs-line">HS Code: <b>${esc(p.hsCode)}</b></p>` : "";
     return `
       <article class="card product-card">
         <div class="media">
@@ -408,6 +412,7 @@
           <h3 class="name">${esc(p.name || "Product name")}</h3>
           <p class="desc">${esc(p.shortDesc || "Short description…")}</p>
           <div class="meta">${chips}</div>
+          ${hs}
         </div>
       </article>`;
   }
@@ -553,6 +558,7 @@
     form.address.value = s.address || "";
     form.mapUrl.value = s.mapUrl || "";
     form.instagram.value = s.socials?.instagram || "";
+    form.facebook.value = s.socials?.facebook || "";
     form.linkedin.value = s.socials?.linkedin || "";
 
     form.onsubmit = (e) => {
@@ -564,7 +570,11 @@
         hours: form.hours.value.trim(),
         address: form.address.value.trim(),
         mapUrl: form.mapUrl.value.trim(),
-        socials: { instagram: form.instagram.value.trim(), linkedin: form.linkedin.value.trim() },
+        socials: {
+          instagram: form.instagram.value.trim(),
+          facebook: form.facebook.value.trim(),
+          linkedin: form.linkedin.value.trim(),
+        },
       });
       toast("Settings saved — live on the public site.");
     };
@@ -704,6 +714,63 @@
       Store.saveSettings({ emblem: form.emblem.value.trim() });
       toast("Branding saved.");
     };
+  }
+
+  /* ================= PAGE CONTENT (Hero + Story text/images) ========== */
+  const CONTENT_TEXT_KEYS = [
+    "heroEyebrow", "heroTitle", "heroTitleGold", "heroLead",
+    "aboutEyebrow", "aboutTitle", "aboutLead", "aboutQuote",
+  ];
+  function loadContent() {
+    const form = $("#content-form");
+    if (!form) return;
+    const content = (Store.getSettings().content) || {};
+    CONTENT_TEXT_KEYS.forEach((k) => { if (form.elements[k]) form.elements[k].value = content[k] || ""; });
+
+    // Story image: an uploaded data URL lives in the hidden aboutImage field;
+    // a pasted link lives in aboutImageUrl. Show whichever is set as the thumb.
+    const isData = String(content.aboutImage || "").startsWith("data:");
+    form.elements["aboutImage"].value = isData ? content.aboutImage : "";
+    form.elements["aboutImageUrl"].value = isData ? "" : (content.aboutImage || "");
+    drawAboutThumb(content.aboutImage || "");
+
+    // Upload → resize → embed as data URL (same path as product photos).
+    const fileInput = form.elements["aboutImageFile"];
+    if (fileInput && !fileInput.dataset.wired) {
+      fileInput.dataset.wired = "1";
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        if (!/^image\//.test(file.type)) { toast("Please choose an image file.", "err"); return; }
+        toast("Processing image…");
+        try {
+          const dataUrl = await compressImage(file, 1200, 0.72);
+          form.elements["aboutImage"].value = dataUrl;
+          form.elements["aboutImageUrl"].value = "";
+          drawAboutThumb(dataUrl);
+          toast("Image ready — click Save to publish.");
+        } catch (e) { console.error(e); toast("Could not read that image.", "err"); }
+      });
+      const urlInput = form.elements["aboutImageUrl"];
+      urlInput && urlInput.addEventListener("input", () => {
+        if (urlInput.value.trim()) { form.elements["aboutImage"].value = ""; drawAboutThumb(urlInput.value.trim()); }
+      });
+    }
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const next = {};
+      CONTENT_TEXT_KEYS.forEach((k) => { next[k] = form.elements[k].value.trim(); });
+      // Uploaded photo wins over a typed link.
+      next.aboutImage = form.elements["aboutImage"].value || form.elements["aboutImageUrl"].value.trim();
+      Store.saveSettings({ content: { ...(Store.getSettings().content || {}), ...next } });
+      toast("Page content saved — live on the home page.");
+    };
+  }
+  function drawAboutThumb(url) {
+    const thumb = $("#c-about-thumb");
+    if (thumb) thumb.innerHTML = url
+      ? `<img src="${esc(resolveImg(url))}" alt="" style="max-width:220px;border-radius:8px;border:1px solid var(--line)">` : "";
   }
 
   /* ---- misc ----------------------------------------------------------- */

@@ -203,6 +203,7 @@
 .dock a svg { width: 24px; height: 24px; }
 .dock .dock-wa { background: #25D366; color: #fff; animation: pulse 2.6s var(--ease) infinite; }
 .dock .dock-mail { background: var(--gold-metallic); color: var(--green-900); }
+.dock .dock-products { background: var(--green-700); color: var(--gold-300); border: 1px solid var(--gold-500); }
 .dock a[data-tip]::after {
   content: attr(data-tip);
   position: absolute; right: 110%; top: 50%; transform: translateY(-50%);

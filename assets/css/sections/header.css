@@ -105,8 +105,9 @@
   .site-header { gap: var(--space-3); padding-inline: var(--space-4); }
   .nav { display: flex; gap: clamp(.7rem, 4vw, 1.4rem); }
   .nav a { font-size: .82rem; letter-spacing: .03em; }
-  /* Keep it to three: Home / Products / About (hide Contact on mobile). */
-  .nav a[href="contact.html"] { display: none; }
+  /* Keep it to three: Home / Products / About (hide Contact on mobile — the
+     floating dock + Request-a-Quote already cover reaching out). */
+  .nav a[href="#contact"] { display: none; }
 }
 
 /* Very small screens: drop the wordmark text, keep the logo mark + nav. */

@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Update <lastmod> dates and the domain before launch. Admin is excluded. -->
+<!-- The site is a single page (all sections live on the home page). The old
+     products/about/contact URLs now redirect here, so the sitemap lists one URL.
+     Admin is excluded. Update the domain + lastmod before launch. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.saraalsalam.com/index.html</loc>
-    <lastmod>2026-06-27</lastmod>
+    <loc>https://www.saraalsalam.com/</loc>
+    <lastmod>2026-07-01</lastmod>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.saraalsalam.com/products.html</loc>
-    <lastmod>2026-06-27</lastmod>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.saraalsalam.com/about.html</loc>
-    <lastmod>2026-06-27</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.saraalsalam.com/contact.html</loc>
-    <lastmod>2026-06-27</lastmod>
-    <priority>0.8</priority>
   </url>
 </urlset>

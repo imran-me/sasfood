@@ -56,7 +56,7 @@ window.initFeatured = function initFeatured() {
     const ori = (p.origins || []).slice(0, 2).join(" · ");
     return `
       <a class="featured-card" style="--i:${i}"
-         href="products.html?category=${encodeURIComponent(p.category || "")}"
+         href="#products" data-cat="${esc(p.category || "")}"
          aria-label="${esc(p.name)} — view in catalogue">
         <span class="cat">${esc(p.category || "")}</span>
         <div class="ph"><img src="${esc(resolveImg(im.url))}" alt="${esc(im.alt || p.name)}" loading="lazy" decoding="async"></div>

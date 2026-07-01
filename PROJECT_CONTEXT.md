@@ -160,6 +160,61 @@ sas/
 
 ## 9. Session Log (append newest at top — update at end of each day)
 
+### 2026-07-01 — Session 8 (SINGLE-PAGE, hero polish, editable content, product/contact/markets fixes)
+Client sent a batch of annotated screenshots + requests. All addressed:
+
+1. **Single-page site.** Header + mobile + footer nav are now in-page anchors
+   (`#home/#products/#about/#contact`) — clicking a menu item just smooth-scrolls
+   to that section on `index.html`. `nav.js` rewrites the anchors to
+   `index.html#…` on non-home pages and adds an IntersectionObserver **scroll-spy**
+   (active link underlines the section in view). The old standalone
+   `products.html` / `about.html` / `contact.html` are now **redirect stubs** →
+   `index.html#section` (meta-refresh + `location.replace`). This also fixed the
+   client's report that the Products page showed a duplicate "Premium Staples"
+   hero — that hero lived only on the standalone page, which no longer renders.
+   In-content links updated: featured "View All" → `#products`; footer product
+   links → `#products` + `data-cat` (deep-links into the filter); about "Our
+   Story" → "Explore the Catalogue" (`#products`); products "View Full Catalogue"
+   → a WhatsApp "Request the Full Line Card" CTA. `products.js` has a global
+   `data-cat` handler that scrolls to the catalogue and pre-selects that pill.
+2. **Hero line-spacing tightened ~15%** (`hero.css` — h1 `line-height:.98`, lead
+   `1.32`, margins ×.85) so everything below sits higher.
+3. **Two tilted "product plate" cards in the hero** (`hero-deck.js` +
+   `sections/hero.html` + `hero.css`): gold-framed, gently floating, they
+   cross-fade through every catalogue photo (~1.3s cadence, 0.85s fade). Sit in
+   the open right-hand space, `pointer-events:none`, hidden ≤980px. **Self-removes
+   if there are no product photos yet** (so it's invisible until the client adds
+   products — that's why it doesn't show on the currently-empty catalogue).
+4. **Editable section content** — new Admin **"Page Content"** tab edits the Hero
+   (eyebrow / white + gold headline / intro) and the Our-Story/About (eyebrow /
+   heading / paragraph / pull-quote / **image** via upload or link). Stored in
+   `settings.content`; `main.js applyContent()` swaps `data-content` text +
+   `data-content-src` images at boot (blank = keep the committed default).
+5. **Product cards same size everywhere** (`products.css`): grid is now
+   `repeat(auto-fit, minmax(248px, 288px))` + `justify-content:center`, so a
+   category with 1–2 products shows normal centered cards instead of stretching.
+6. **Products show ALL origins + packaging** on the card (was capped at 2) and a
+   new **HS Code** field (admin product editor + public card line + modal).
+7. **Contact:** removed the wrong second number (`+971 52 605 0655` / phone2)
+   everywhere (config, contact card, footer); added a **Facebook** option
+   (config `socials.facebook`, Admin → Settings field, contact card, footer,
+   mobile menu). All contact details remain editable via Admin → Settings; unset
+   social links now hide themselves instead of showing dead `#` links.
+8. **Floating Products dock button** added (`furniture.html` `.dock-products`,
+   green + gold box icon, same 52px round size) → jumps to `#products`.
+9. **Markets:** the market list shows **max 10** publicly; a **"See all N →"**
+   chip opens a modal listing every operating country. The trust-strip
+   **"Trading Markets" counter is now LIVE** = count of active Admin countries
+   (adding a country in Admin bumps it automatically — this was the client's
+   "halal section count not increasing" report).
+- **Resilience fix:** `main.js` now races `SASCloud.pull()` against a 4s timeout
+  so a slow/unreachable Firestore can't hang the page on the preloader forever
+  (it falls back to the local cache).
+- All JS passes `node --check`; verified headless (Chrome) — home hero, dock,
+  scroll-spy, and product-card sizing/HS/origins confirmed visually.
+- ⏳ Client TODO: add products (so the hero deck + featured populate); fill
+  Instagram/Facebook/LinkedIn URLs in Admin → Settings; add HS codes per product.
+
 ### 2026-06-30 — Session 7 (mobile overflow fix, products 2-col, FIREBASE wired)
 Client report: on mobile the page rendered **wider than the screen** (right-edge
 icons clipped; zooming out "fixed" it). Plus: keep section order identical on

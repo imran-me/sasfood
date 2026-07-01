@@ -24,7 +24,6 @@ window.SITE_CONFIG = {
   whatsapp: "971567454014",
   email:    "sasfood.ae@gmail.com",
   phone:    "+971 56 745 4014",
-  phone2:   "+971 52 605 0655",
   address:  "Office 222, 2nd Floor, RAG Global Business Center, Al Hilal Bank Building, Al Qusais, Dubai, United Arab Emirates",
   mapUrl:   "https://www.google.com/maps/search/?api=1&query=RAG+Global+Business+Center+Al+Hilal+Bank+Building+Al+Qusais+Dubai",
   hours:    "Sun–Thu, 9:00–18:00 (GST)",
@@ -32,6 +31,7 @@ window.SITE_CONFIG = {
   /* ---- Social links (optional — add real URLs when available) -------- */
   socials: {
     instagram: "{INSTAGRAM}",
+    facebook:  "{FACEBOOK}",
     linkedin:  "{LINKEDIN}",
   },
 

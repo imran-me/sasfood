@@ -14,12 +14,13 @@
     </span>
   </a>
 
-  <!-- Desktop nav -->
+  <!-- Desktop nav — single-page anchors (see nav.js: on non-index pages these
+       are rewritten to index.html#… so the menu always lands on the section). -->
   <nav class="nav" aria-label="Primary">
-    <a href="index.html">Home</a>
-    <a href="products.html">Products</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
+    <a href="#home">Home</a>
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
   </nav>
 
   <!-- Right cluster -->
@@ -46,10 +47,10 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 6 12 12M18 6 6 18"/></svg>
   </button>
   <nav aria-label="Mobile primary">
-    <a href="index.html">Home</a>
-    <a href="products.html">Products</a>
-    <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
+    <a href="#home">Home</a>
+    <a href="#products">Products</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
   </nav>
   <div class="menu-actions">
     <a class="btn btn--whatsapp" data-config-href="whatsapp">WhatsApp</a>
@@ -58,6 +59,7 @@
   </div>
   <div class="menu-socials">
     <a data-config-href="instagram" aria-label="Instagram">Instagram</a>
+    <a data-config-href="facebook" aria-label="Facebook">Facebook</a>
     <a data-config-href="linkedin" aria-label="LinkedIn">LinkedIn</a>
   </div>
   <img class="menu-silhouette" src="assets/img/silhouettes/burj-khalifa.svg" alt="" aria-hidden="true">

@@ -56,3 +56,40 @@
   .markets .route { stroke-dashoffset: 0; transition: none; }
   .markets .pin-glow { animation: none; }
 }
+
+/* ---- "See all markets" chip/button + modal (when > 10 countries) ------ */
+.see-all-markets {
+  cursor: pointer; background: transparent; color: var(--gold-300);
+  border: 1px dashed var(--gold-500); font: inherit; font-size: var(--fs-small);
+  letter-spacing: .02em; border-radius: 999px; padding: .28rem .8rem;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.market-legend li .see-all-markets { padding: .1rem .55rem; }
+.see-all-markets:hover { background: var(--gold-metallic); color: var(--green-900); border-style: solid; }
+
+.markets-modal {
+  position: fixed; inset: 0; z-index: var(--z-overlay);
+  display: grid; place-items: center; padding: var(--gutter);
+  background: rgba(8,41,30,.72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; visibility: hidden; transition: opacity var(--dur) var(--ease), visibility var(--dur) var(--ease);
+}
+.markets-modal.is-open { opacity: 1; visibility: visible; }
+.markets-modal .mm-panel {
+  position: relative; width: min(560px, 100%); max-height: 82vh; overflow: auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: linear-gradient(180deg, var(--green-800), var(--green-900));
+  border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow-lift);
+  transform: translateY(16px) scale(.98); transition: transform var(--dur) var(--ease);
+}
+.markets-modal.is-open .mm-panel { transform: none; }
+.markets-modal h3 { color: var(--cream-100); font-size: 1.6rem; margin: .25rem 0 1.1rem; }
+.markets-modal .mm-list {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .6rem 1rem;
+}
+.markets-modal .mm-list li { display: inline-flex; align-items: center; gap: .5rem; color: var(--cream-100); font-size: .95rem; }
+.markets-modal .mm-list .flag { font-size: 1.15rem; }
+.markets-modal .mm-close {
+  position: absolute; top: .75rem; right: .75rem; width: 40px; height: 40px;
+  display: grid; place-items: center; border-radius: 50%; font-size: 1.4rem;
+  background: rgba(8,41,30,.6); border: 1px solid var(--line); color: var(--gold-300); cursor: pointer;
+}
