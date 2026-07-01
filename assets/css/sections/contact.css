@@ -17,6 +17,10 @@
   transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 .field input::placeholder, .field textarea::placeholder { color: rgba(251,248,240,.4); }
+/* The native dropdown popup renders on a light background, so its <option>s must
+   use dark text (the field's cream color made them nearly invisible). Applies to
+   the public contact form AND the admin selects (admin.html reuses .field). */
+.field select option, .field select optgroup { color: #123524; background: #FBF8F0; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold-500); background: rgba(255,255,255,.05); outline: none; }
 .field textarea { resize: vertical; min-height: 110px; }
 .field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea { border-color: rgba(244,99,99,.7); }

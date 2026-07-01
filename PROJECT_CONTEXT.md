@@ -207,6 +207,11 @@ Client sent a batch of annotated screenshots + requests. All addressed:
    **"Trading Markets" counter is now LIVE** = count of active Admin countries
    (adding a country in Admin bumps it automatically — this was the client's
    "halal section count not increasing" report).
+- **Dropdown readability fix:** `<select>` options inherited the field's cream
+  text, so the native (light) dropdown popup rendered them almost invisibly.
+  Added `.field select option { color:#123524; background:#FBF8F0 }` (fixes the
+  contact form AND admin selects). Also the contact "Product interest" list is
+  now built from the admin categories (`contact.js`) so it matches the catalogue.
 - **Resilience fix:** `main.js` now races `SASCloud.pull()` against a 4s timeout
   so a slow/unreachable Firestore can't hang the page on the preloader forever
   (it falls back to the local cache).

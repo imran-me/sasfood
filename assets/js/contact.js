@@ -10,6 +10,25 @@ window.initContact = function initContact() {
   const form = document.querySelector(".inquiry-form[data-inquiry]");
   if (!form) return;
 
+  // Keep the "Product interest" dropdown in sync with the admin-managed
+  // categories, so it always matches the live catalogue (built safely via DOM).
+  const productSel = form.elements["product"];
+  if (productSel && window.Store && window.Store.getCategoryNames) {
+    const names = window.Store.getCategoryNames();
+    if (names.length) {
+      productSel.textContent = "";
+      const add = (label, val) => {
+        const o = document.createElement("option");
+        o.textContent = label;
+        if (val != null) o.value = val;
+        productSel.appendChild(o);
+      };
+      add("Select a category…", "");
+      names.forEach((n) => add(n));
+      add("Multiple / Other");
+    }
+  }
+
   const field = (name) => form.elements[name];
   const setErr = (name, on) => {
     const wrap = field(name)?.closest(".field");
